@@ -1,0 +1,675 @@
+[gd_scene format=3 uid="uid://bfe1cqgrqxi0r"]
+
+[ext_resource type="Script" uid="uid://bg33ivpym3afe" path="res://Scripts/main.gd" id="1_3amdw"]
+[ext_resource type="PackedScene" uid="uid://c3u38l3d45gwv" path="res://Scene/SkillTree/Skilltree.tscn" id="2_1xcnr"]
+[ext_resource type="Texture2D" uid="uid://bt3q06mi0iihb" path="res://Sprites/Icon/wood.icon.png" id="2_r34rm"]
+[ext_resource type="Texture2D" uid="uid://cnmwq1qi3vssb" path="res://Sprites/Icon/stone.icon.png" id="3_2wwxx"]
+[ext_resource type="PackedScene" uid="uid://c7laqh0tmuicd" path="res://Scene/Action_block.tscn" id="4_2wwxx"]
+[ext_resource type="FontFile" uid="uid://fps12x5mfajs" path="res://Sprites/Font/Orbitron-VariableFont_wght.ttf" id="4_3amdw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.06428324, 0.09714449, 0.17518467, 0.7058824)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.35, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_terminal"]
+bg_color = Color(0.050980393, 0.06666667, 0.09019608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.35, 0.4, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hspdg"]
+bg_color = Color(0.09803922, 0.4117647, 0.12156863, 1)
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_palette"]
+bg_color = Color(0.0627451, 0.09803922, 0.1764706, 0.9647059)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.35, 0.4, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sblpm"]
+bg_color = Color(0.14509805, 0.5882353, 0.74509805, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7y4ci"]
+bg_color = Color(0.29411766, 0.7019608, 0.8784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxd2g"]
+bg_color = Color(0.29411766, 0.7019608, 0.8784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0sxm5"]
+bg_color = Color(0.29411766, 0.7019608, 0.8784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r34rm"]
+bg_color = Color(0.3647059, 0.80784315, 0.28627452, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wwxx"]
+bg_color = Color(1, 0.4392157, 0.4392157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3amdw"]
+bg_color = Color(0.99999374, 0.17469627, 0.265551, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xcnr"]
+bg_color = Color(1, 0.5803922, 0.28235295, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow1sv"]
+bg_color = Color(0.88328457, 0.4421663, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75buv"]
+bg_color = Color(0.26126787, 0.567502, 0.20777678, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c2iwn"]
+bg_color = Color(0.6392157, 0.41568628, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3pt4j"]
+bg_color = Color(0.45257044, 0.0026545073, 0.8299588, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_setvar"]
+bg_color = Color(0.72, 0.3, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deffunc"]
+bg_color = Color(0.55, 0.1, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_callfunc"]
+bg_color = Color(0.62, 0.2, 0.9, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_getx"]
+bg_color = Color(0, 0.68, 0.82, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gety"]
+bg_color = Color(0, 0.58, 0.72, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_findnearest"]
+bg_color = Color(0.85, 0.75, 0.1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_moveto"]
+bg_color = Color(0.4, 0.82, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_warehouse"]
+bg_color = Color(0.55, 0.43, 0.38, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_park"]
+bg_color = Color(0.35, 0.78, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quarry"]
+bg_color = Color(0.47, 0.57, 0.62, 1)
+
+[node name="Main" type="Node2D" unique_id=1976293878]
+script = ExtResource("1_3amdw")
+metadata/_edit_vertical_guides_ = [-952.0]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=341177856]
+position = Vector2(574, 324)
+zoom = Vector2(1.5, 1.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1605043225]
+
+[node name="HUD" type="PanelContainer" parent="CanvasLayer" unique_id=767327321]
+custom_minimum_size = Vector2(0, 60)
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+focus_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+
+[node name="MainHBox" type="HBoxContainer" parent="CanvasLayer/HUD" unique_id=767327322]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HUD/MainHBox" unique_id=117160474]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD/MainHBox/HBoxContainer" unique_id=1400797420]
+custom_minimum_size = Vector2(32, 16)
+layout_mode = 2
+texture = ExtResource("2_r34rm")
+expand_mode = 1
+
+[node name="WoodLabel" type="Label" parent="CanvasLayer/HUD/MainHBox/HBoxContainer" unique_id=1284242716]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/HUD/MainHBox" unique_id=1123197677]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/HUD/MainHBox/HBoxContainer2" unique_id=-1294967295]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/HUD/MainHBox" unique_id=779466968]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="PopLabel" type="Label" parent="CanvasLayer/HUD/MainHBox/HBoxContainer3" unique_id=-1294967294]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/HUD/MainHBox" unique_id=779466969]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD/MainHBox/HBoxContainer4" unique_id=420768304]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("3_2wwxx")
+expand_mode = 1
+
+[node name="StoneLabel" type="Label" parent="CanvasLayer/HUD/MainHBox/HBoxContainer4" unique_id=-1294967293]
+layout_mode = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="CanvasLayer/HUD/MainHBox" unique_id=779466970]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="InventoryLabel" type="Label" parent="CanvasLayer/HUD/MainHBox/HBoxContainer5" unique_id=-1294967292]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/HUD/MainHBox" unique_id=1676071567]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="CanvasLayer/HUD/MainHBox" unique_id=2118828804]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_3amdw")
+text = "Back"
+
+[node name="ModeToggleButton" type="Button" parent="CanvasLayer/HUD/MainHBox" unique_id=1597246420]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_3amdw")
+text = "Switch to Code Editor"
+
+[node name="Research" type="Button" parent="CanvasLayer/HUD/MainHBox" unique_id=816309799]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_3amdw")
+text = "Research Skill
+"
+
+[node name="Terminal" type="PanelContainer" parent="CanvasLayer" unique_id=1083583605]
+custom_minimum_size = Vector2(300, 400)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_terminal")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Terminal" unique_id=1083583606]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/Terminal/VBoxContainer" unique_id=926901061]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.574758, 0.29913485, 0.91193485, 1)
+theme_override_constants/line_spacing = 5
+theme_override_fonts/font = ExtResource("4_3amdw")
+theme_override_font_sizes/font_size = 20
+text = "Program"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Terminal/VBoxContainer" unique_id=926901062]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Sequence" type="VBoxContainer" parent="CanvasLayer/Terminal/VBoxContainer/ScrollContainer" unique_id=1906605882]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RunButton" type="Button" parent="CanvasLayer/Terminal/VBoxContainer" unique_id=2118828805]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8863504, 0.83541095, 0.9915251, 1)
+theme_override_fonts/font = ExtResource("4_3amdw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hspdg")
+text = "Run Program"
+
+[node name="StopButton" type="Button" parent="CanvasLayer/Terminal/VBoxContainer" unique_id=25617071]
+visible = false
+layout_mode = 2
+text = "Stop Program"
+
+[node name="Palette" type="PanelContainer" parent="CanvasLayer" unique_id=1642270611]
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_palette")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Palette" unique_id=1642270612]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/Palette/VBoxContainer" unique_id=1478539317]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_fonts/font = ExtResource("4_3amdw")
+text = "Blocks"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Palette/VBoxContainer" unique_id=204924268]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer" unique_id=1478539318]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Block_ up" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1985788993 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_sblpm")
+command_id = "up"
+
+[node name="Block_down" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=2057261973 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_7y4ci")
+command_id = "down"
+
+[node name="Block3_left" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1788208368 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_mxd2g")
+command_id = "left"
+
+[node name="Block4_right" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1510288899 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_0sxm5")
+command_id = "right"
+
+[node name="Collect" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1500778777 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_r34rm")
+command_id = "collect"
+
+[node name="Scan" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1500778778 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2wwxx")
+command_id = "scan"
+
+[node name="Deposit" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1500778779 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_3amdw")
+command_id = "deposit"
+
+[node name="BuildHouse" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=685511346 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_1xcnr")
+command_id = "build_house"
+
+[node name="BuildRoad" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=685511349 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ow1sv")
+command_id = "build_road"
+
+[node name="Chop" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=685511350 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_75buv")
+command_id = "chop"
+
+[node name="WhileLoop" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=685511347 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_c2iwn")
+text = "While Loop"
+command_id = "while_loop"
+
+[node name="IfElse" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=685511348 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_3pt4j")
+text = "If / Else"
+command_id = "if_else"
+
+[node name="SetVar" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=2027798563 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_setvar")
+text = "Set Var"
+command_id = "set_var"
+
+[node name="DefineFunc" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1445472065 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_deffunc")
+text = "Def Func"
+command_id = "define_func"
+
+[node name="CallFunc" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=154709315 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_callfunc")
+text = "Call Func"
+command_id = "call_func"
+
+[node name="GetX" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=707499181 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_getx")
+text = "Get X"
+command_id = "get_x"
+
+[node name="GetY" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=905996413 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_gety")
+text = "Get Y"
+command_id = "get_y"
+
+[node name="FindNearest" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=45555841 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_findnearest")
+text = "Find Nearest"
+command_id = "find_nearest"
+
+[node name="MoveTo" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=693543131 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_moveto")
+text = "Move To"
+command_id = "move_to"
+
+[node name="BuildWarehouse" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1714799869 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_warehouse")
+text = "Warehouse"
+command_id = "build_warehouse"
+
+[node name="BuildPark" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=211785524 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_park")
+text = "Build Park"
+command_id = "build_park"
+
+[node name="BuildQuarry" parent="CanvasLayer/Palette/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1437360408 instance=ExtResource("4_2wwxx")]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_quarry")
+text = "Build Quarry"
+command_id = "build_quarry"
+
+[node name="MissionPanel" type="PanelContainer" parent="CanvasLayer" unique_id=1890369192]
+custom_minimum_size = Vector2(200, 200)
+offset_left = 12.0
+offset_top = 65.0
+offset_right = 212.0
+offset_bottom = 265.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MissionPanel" unique_id=805917193]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Title" type="Label" parent="CanvasLayer/MissionPanel/VBoxContainer" unique_id=1156387702]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MissionPanel" unique_id=1359473796]
+layout_mode = 2
+
+[node name="Task" type="Label" parent="CanvasLayer/MissionPanel/VBoxContainer2" unique_id=453773048]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="WinPopup" type="Panel" parent="CanvasLayer" unique_id=1067184431]
+visible = false
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Message" type="Label" parent="CanvasLayer/WinPopup" unique_id=2139674011]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="PythonCode" type="CodeEdit" parent="CanvasLayer/WinPopup" unique_id=979121033]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -212.0
+offset_top = -147.0
+offset_right = 214.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "
+"
+
+[node name="NextButton" type="Button" parent="CanvasLayer/WinPopup" unique_id=1569871078]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -31.0
+offset_right = 45.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Next Level"
+
+[node name="EditorButton" type="Button" parent="CanvasLayer" unique_id=1981302265]
+visible = false
+custom_minimum_size = Vector2(60, 30)
+offset_left = 1023.0
+offset_top = 12.0
+offset_right = 1124.0
+offset_bottom = 42.0
+text = "Editor"
+
+[node name="PythonEditor" type="PanelContainer" parent="CanvasLayer" unique_id=682825078]
+visible = false
+custom_minimum_size = Vector2(300, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PythonEditor" unique_id=1211232005]
+layout_mode = 2
+
+[node name="HeaderRow" type="HBoxContainer" parent="CanvasLayer/PythonEditor/VBoxContainer" unique_id=830455729]
+layout_mode = 2
+
+[node name="EditorLabel" type="Label" parent="CanvasLayer/PythonEditor/VBoxContainer/HeaderRow" unique_id=1990868240]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " Python Editor"
+
+[node name="HelpButton" type="Button" parent="CanvasLayer/PythonEditor/VBoxContainer/HeaderRow" unique_id=1245358008]
+layout_mode = 2
+text = "? Help"
+
+[node name="CodeEdit" type="CodeEdit" parent="CanvasLayer/PythonEditor/VBoxContainer" unique_id=638732749]
+custom_minimum_size = Vector2(300, 340)
+layout_mode = 2
+
+[node name="RunPythonButton" type="Button" parent="CanvasLayer/PythonEditor/VBoxContainer" unique_id=1004244471]
+layout_mode = 2
+text = "Run Program
+"
+
+[node name="CheatSheet" type="PanelContainer" parent="CanvasLayer/PythonEditor" unique_id=-1577588914]
+visible = false
+custom_minimum_size = Vector2(320, 440)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/PythonEditor/CheatSheet" unique_id=1790087737]
+layout_mode = 2
+
+[node name="CheatLabel" type="RichTextLabel" parent="CanvasLayer/PythonEditor/CheatSheet/ScrollContainer" unique_id=2062217488]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[b][color=cyan]B-Bot Command Reference[/color][/b]
+
+[b][color=lightblue]── Always Available ──[/color][/b]
+[color=dodgerblue]b_bot.move_up()[/color]
+  Move B-Bot one tile up
+
+[color=dodgerblue]b_bot.move_down()[/color]
+  Move B-Bot one tile down
+
+[color=dodgerblue]b_bot.move_left()[/color]
+  Move B-Bot one tile left
+
+[color=dodgerblue]b_bot.move_right()[/color]
+  Move B-Bot one tile right
+
+[b][color=lightblue]── Collect (unlock: Collect) ──[/color][/b]
+[color=orange]b_bot.collect()[/color]
+  Pick up a nearby resource (wood/stone)
+
+[color=orange]b_bot.chop()[/color]
+  Chop the tree directly ahead
+  Requires: Chop skill
+
+[color=orange]b_bot.deposit()[/color]
+  Drop inventory at a warehouse/base
+  Requires: Deposit skill
+
+[b][color=lightblue]── Sensors (unlock: Scan) ──[/color][/b]
+[color=salmon]b_bot.scan()[/color]
+  Returns: 'tree', 'rock', 'warehouse', or 'empty'
+  Example: if b_bot.scan() == 'tree': b_bot.chop()
+
+[b][color=lightblue]── GPS (unlock: GPS) ──[/color][/b]
+[color=cyan]x = b_bot.get_x()[/color]
+  Returns and stores the bot's current X grid position
+
+[color=cyan]y = b_bot.get_y()[/color]
+  Returns and stores the bot's current Y grid position
+
+[b][color=lightblue]── Radar (unlock: Radar) ──[/color][/b]
+[color=yellow]result = b_bot.find_nearest('trees')[/color]
+  Finds nearest node of the given type
+  Types: 'trees', 'rocks', 'houses', 'warehouse'
+  Returns: { found, direction, distance }
+  Stores nearest_dir and nearest_dist into bot.variables
+
+[b][color=lightblue]── Pathfinding (unlock: Pathfinding) ──[/color][/b]
+[color=greenyellow]b_bot.move_to('trees')[/color]
+  Automatically walks to nearest node of given type
+  Types: 'trees', 'rocks', 'warehouse', 'houses'
+
+[b][color=lightblue]── Building (unlock: Build House) ──[/color][/b]
+[color=orange]b_bot.build_house()[/color]
+  Build a house at bot's position (costs money + wood)
+
+[color=darkorange]b_bot.build_road()[/color]
+  Lay a road at bot's position
+  Requires: Build Road skill
+
+[color=peru]b_bot.build_warehouse()[/color]
+  Build a warehouse (deposit point)
+  Requires: Warehouse skill
+
+[color=lime]b_bot.build_park()[/color]
+  Build a park (boosts tax per person)
+  Requires: Park skill
+
+[color=silver]b_bot.build_quarry()[/color]
+  Build a quarry (passive stone every 5s)
+  Requires: Quarry skill
+
+[b][color=lightblue]── Variables (unlock: Variables) ──[/color][/b]
+[color=violet]b_bot.set_var('count', 5)[/color]
+  Store a value in the bot's memory
+
+[color=violet]b_bot.get_var('count')[/color]
+  Retrieve a stored value
+
+[b][color=lightblue]── Functions (unlock: Functions) ──[/color][/b]
+[color=plum]def harvest():
+    b_bot.chop()
+    b_bot.collect()
+    b_bot.deposit()
+
+harvest()[/color]
+  Define a reusable sequence and call it"
+fit_content = true
+
+[node name="Skilltree" parent="CanvasLayer" unique_id=875301979 instance=ExtResource("2_1xcnr")]
+visible = false
+
+[node name="LevelContainer" type="Node2D" parent="." unique_id=1957539024]
+
+[node name="CityGrid" type="Node2D" parent="." unique_id=1957539025]
+
+[connection signal="pressed" from="CanvasLayer/HUD/MainHBox/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/MainHBox/ModeToggleButton" to="." method="_on_mode_toggle_pressed"]
+[connection signal="pressed" from="CanvasLayer/Terminal/VBoxContainer/RunButton" to="." method="_on_run_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Terminal/VBoxContainer/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/WinPopup/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PythonEditor/VBoxContainer/HeaderRow/HelpButton" to="." method="_on_help_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PythonEditor/VBoxContainer/RunPythonButton" to="." method="_on_run_python_pressed"]

@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://bgc4ycg7x0tfi"]
+
+[ext_resource type="Script" uid="uid://bw78pmu4s3v6n" path="res://Scene/ModuleSelect.gd" id="1_m1kqq"]
+[ext_resource type="StyleBox" uid="uid://b4sepglpaesil" path="res://LevelSelectStyle.tres" id="2_ag8b7"]
+
+[sub_resource type="Gradient" id="Gradient_8m38o"]
+colors = PackedColorArray(0.05882353, 0.09019608, 0.16470589, 1, 0.15164763, 0.13776344, 0.36229873, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ag8b7"]
+gradient = SubResource("Gradient_8m38o")
+fill = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+bg_color = Color(0.3, 0.3, 0.35, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ModuleSelect" type="Control" unique_id=1555830051]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m1kqq")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2116082138]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ag8b7")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=716950090]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=302861172]
+layout_mode = 2
+theme_override_constants/separation = 35
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=545975208]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_outline_size = 6
+theme_override_font_sizes/font_size = 48
+text = "Tutorial Stage"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1551214020]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42406029, 0.6740422, 0.74409044, 0.81960785)
+text = "Select a Module"
+horizontal_alignment = 1
+
+[node name="Module1Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=287276491]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = ExtResource("2_ag8b7")
+text = "Module 1: Movement"
+
+[node name="Module2Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1737340327]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = ExtResource("2_ag8b7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+text = "Module 2: Supply Chain"
+
+[node name="Module3Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1737340328]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = ExtResource("2_ag8b7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+text = "Module 3: The Architect"
+
+[node name="BackButton" type="Button" parent="." unique_id=140252722]
+layout_mode = 0
+offset_left = 1037.0
+offset_top = 613.0
+offset_right = 1151.0
+offset_bottom = 644.0
+text = "Back to Mode Select"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Module1Button" to="." method="_on_module1_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Module2Button" to="." method="_on_module2_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Module3Button" to="." method="_on_module3_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_pressed"]

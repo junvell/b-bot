@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://moveto_block_001"]
+
+[ext_resource type="Script" path="res://Scripts/move_to_block.gd" id="1_mtb"]
+
+[node name="MoveToBlock" type="Button"]
+custom_minimum_size = Vector2(200, 36)
+script = ExtResource("1_mtb")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PrefixLabel" type="Label" parent="HBox"]
+layout_mode = 2
+text = " Move To: "
+
+[node name="TypeOption" type="OptionButton" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+

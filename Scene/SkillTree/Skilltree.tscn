@@ -1,0 +1,273 @@
+[gd_scene format=3 uid="uid://c3u38l3d45gwv"]
+
+[ext_resource type="Script" uid="uid://27lgxptvp4gq" path="res://Scene/SkillTree/skilltree.gd" id="1_stgd"]
+[ext_resource type="PackedScene" uid="uid://c8k348kxxxx" path="res://Scene/SkillTree/skillnode.tscn" id="2_sknd"]
+[ext_resource type="FontFile" uid="uid://fps12x5mfajs" path="res://Sprites/Font/Orbitron-VariableFont_wght.ttf" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.05, 0.067, 0.09, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.4, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_title"]
+bg_color = Color(0.08, 0.11, 0.18, 1)
+border_width_bottom = 2
+border_color = Color(0.25, 0.25, 0.38, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[node name="SkillTree" type="Control" unique_id=267996125]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_stgd")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1045223042]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1007446746]
+custom_minimum_size = Vector2(920, 560)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -460.0
+offset_top = -280.0
+offset_right = 460.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="VBoxOuter" type="VBoxContainer" parent="Panel" unique_id=2066037728]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="TitleBar" type="PanelContainer" parent="Panel/VBoxOuter" unique_id=865028159]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title")
+
+[node name="HBox" type="HBoxContainer" parent="Panel/VBoxOuter/TitleBar" unique_id=580096561]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TitleLabel" type="Label" parent="Panel/VBoxOuter/TitleBar/HBox" unique_id=350114870]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.85, 1, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 18
+text = "  Research Lab"
+vertical_alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="Panel/VBoxOuter/TitleBar/HBox" unique_id=567775259]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 16
+text = "Money: $0"
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="Panel/VBoxOuter/TitleBar/HBox" unique_id=2116826153]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = " X "
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/VBoxOuter" unique_id=395884722]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Canvas" type="Control" parent="Panel/VBoxOuter/ScrollContainer" unique_id=1930551989]
+custom_minimum_size = Vector2(880, 620)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BranchLabel_Logic" type="Label" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1954982886]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 10.0
+offset_right = 230.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(0.6, 0.7, 1, 0.8)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 13
+text = "Logic"
+horizontal_alignment = 1
+
+[node name="BranchLabel_Sensors" type="Label" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1367034366]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 10.0
+offset_right = 530.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 0.7, 0.6, 0.8)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 13
+text = "Sensors"
+horizontal_alignment = 1
+
+[node name="BranchLabel_Infra" type="Label" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1887097313]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 10.0
+offset_right = 830.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(0.6, 1, 0.7, 0.8)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 13
+text = "Infrastructure"
+horizontal_alignment = 1
+
+[node name="SkillNode_while_loop" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=433871888 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 45.0
+offset_right = 230.0
+offset_bottom = 125.0
+skill_id = "while_loop"
+skill_name = "While Loops"
+skill_desc = "Repeat a block of code until a condition is false."
+
+[node name="SkillNode_if_else" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=104049330 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 160.0
+offset_right = 230.0
+offset_bottom = 240.0
+skill_id = "if_else"
+skill_name = "If / Else"
+skill_desc = "Run different code based on a condition."
+
+[node name="SkillNode_variables" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1991161563 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 275.0
+offset_right = 230.0
+offset_bottom = 355.0
+skill_id = "variables"
+skill_name = "Variables"
+skill_desc = "Store and reuse values in memory."
+
+[node name="SkillNode_functions" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=431480445 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 390.0
+offset_right = 230.0
+offset_bottom = 470.0
+skill_id = "functions"
+skill_name = "Functions"
+skill_desc = "Create reusable command blueprints."
+
+[node name="SkillNode_scan" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1027845727 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 355.0
+offset_top = 45.0
+offset_right = 525.0
+offset_bottom = 125.0
+skill_id = "scan"
+skill_name = "Proximity Sensor"
+skill_desc = "Inspect the tile directly in front of B-Bot."
+
+[node name="SkillNode_gps" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=2136050741 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 355.0
+offset_top = 160.0
+offset_right = 525.0
+offset_bottom = 240.0
+skill_id = "gps"
+skill_name = "GPS Transponder"
+skill_desc = "Read B-Bot's current grid coordinates."
+
+[node name="SkillNode_radar" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=336331857 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 355.0
+offset_top = 275.0
+offset_right = 525.0
+offset_bottom = 355.0
+skill_id = "radar"
+skill_name = "Resource Radar"
+skill_desc = "Locate the nearest tree or rock on the map."
+
+[node name="SkillNode_pathfinding" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=781597988 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 355.0
+offset_top = 390.0
+offset_right = 525.0
+offset_bottom = 470.0
+skill_id = "pathfinding"
+skill_name = "Pathfinding"
+skill_desc = "B-Bot automatically walks to a target tile."
+
+[node name="SkillNode_build_house" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=215628507 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 45.0
+offset_right = 820.0
+offset_bottom = 125.0
+skill_id = "build_house"
+skill_name = "House Blueprint"
+skill_desc = "Construct houses to grow your population."
+
+[node name="SkillNode_build_road" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=362768602 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 160.0
+offset_right = 820.0
+offset_bottom = 240.0
+skill_id = "build_road"
+skill_name = "Paved Roads"
+skill_desc = "Lay roads to connect your city blocks."
+
+[node name="SkillNode_warehouse" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1839274824 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 275.0
+offset_right = 820.0
+offset_bottom = 355.0
+skill_id = "warehouse"
+skill_name = "Warehouse"
+skill_desc = "Build resource drop-off depots in the world."
+
+[node name="SkillNode_park" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1211527539 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 390.0
+offset_right = 820.0
+offset_bottom = 470.0
+skill_id = "park"
+skill_name = "City Park"
+skill_desc = "Boost tax income from nearby population."
+
+[node name="SkillNode_quarry" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=150886066 instance=ExtResource("2_sknd")]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 510.0
+offset_right = 820.0
+offset_bottom = 590.0
+skill_id = "quarry"
+skill_name = "Stone Quarry"
+skill_desc = "Passively generates stone over time."

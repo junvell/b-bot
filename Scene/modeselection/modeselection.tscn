@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cvke3t5lq2jew"]
+
+[ext_resource type="Script" uid="uid://c03w5uytjocpq" path="res://Scene/modeselection/modeselection.gd" id="1_h8vbk"]
+
+[node name="Modeselection" type="Control" unique_id=1233395764]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_h8vbk")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1082881260]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3337397, 0.3063278, 0.44388333, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1573362162]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -134.0
+offset_top = -10.0
+offset_right = 135.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=714533073]
+layout_mode = 2
+text = "TUTORIAL MODULES"
+
+[node name="OpenWorldButton" type="Button" parent="VBoxContainer" unique_id=1168221358]
+layout_mode = 2
+text = "ENTER OPEN WORLD"
+
+[node name="BackButton" type="Button" parent="." unique_id=280847115]
+layout_mode = 0
+offset_left = 1037.0
+offset_top = 613.0
+offset_right = 1151.0
+offset_bottom = 644.0
+text = "Back to Menu"

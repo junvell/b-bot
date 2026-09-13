@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dqjer7mptl2v3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w2kqq"]
+size = Vector2(32, 32)
+
+[node name="Warehouse" type="Node2D" unique_id=1286608618 groups=["base", "warehouse"]]
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1286608619]
+color = Color(0.6, 0.4, 0.2, 1)
+polygon = PackedVector2Array(-15.993982, -15.990651, 16.093067, -15.927611, 15.999992, 15.999999, -16, 15.999999)
+uv = PackedVector2Array(-15.993982, -15.990651, 16.093067, -15.927611, 15.999992, 15.999999, -16, 15.999999)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1286608620]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1286608621]
+shape = SubResource("RectangleShape2D_w2kqq")

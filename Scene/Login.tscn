@@ -1,0 +1,144 @@
+[gd_scene format=3 uid="uid://c47ryc5th88uf"]
+
+[ext_resource type="Script" uid="uid://b11pcwobw7mlg" path="res://Scene/login.gd" id="1_vhlv8"]
+[ext_resource type="StyleBox" uid="uid://2bwtkqshy4f2" path="res://panel.tres" id="2_5gdb2"]
+[ext_resource type="Texture2D" uid="uid://cwvgwql0u1ld7" path="res://Sprites/Untitled_design-removebg-preview.png" id="2_8y8gy"]
+[ext_resource type="StyleBox" uid="uid://diw3cbiss4qtf" path="res://email_passwordstyletext.tres" id="3_ndctc"]
+[ext_resource type="StyleBox" uid="uid://dgtht28w8jbxc" path="res://Login_Signupstyle.tres" id="4_8a5fm"]
+[ext_resource type="StyleBox" uid="uid://dl7eal1dshqye" path="res://hoverloginstyle.tres" id="5_5gdb2"]
+
+[sub_resource type="Gradient" id="Gradient_vhlv8"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.41379312, 0.93869734)
+colors = PackedColorArray(0.05882353, 0.09019608, 0.16470589, 1, 0.11764706, 0.105882354, 0.29411766, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8y8gy"]
+gradient = SubResource("Gradient_vhlv8")
+fill = 1
+fill_from = Vector2(0, 0.0042735045)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8y8gy"]
+bg_color = Color(0.09803922, 0.17254902, 0.1882353, 1)
+
+[node name="Login" type="Control" unique_id=615387022]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vhlv8")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1812253124]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_8y8gy")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=711735735]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1342465166]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_5gdb2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=477334477]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="icon" type="TextureRect" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=624631143]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_8y8gy")
+
+[node name="MainTitle" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=2015273189]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Play \"Build-Bot\" B-Bot "
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1488286727]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Start your town with Build-Bot"
+horizontal_alignment = 1
+
+[node name="EmailInput" type="LineEdit" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1329751972]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_ndctc")
+placeholder_text = "Email"
+
+[node name="Label3" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/EmailInput" unique_id=2069155230]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_right = -302.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "Email"
+
+[node name="PasswordInput" type="LineEdit" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=2030708938]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_ndctc")
+placeholder_text = "Password"
+secret = true
+
+[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/PasswordInput" unique_id=1460005756]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_right = -302.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "Password"
+
+[node name="SignupButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1956097856]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15847209, 0.15847248, 0.15847215, 1)
+theme_override_colors/font_hover_color = Color(0.15686275, 0.15686275, 0.15686275, 1)
+theme_override_styles/normal = ExtResource("4_8a5fm")
+theme_override_styles/hover = ExtResource("5_5gdb2")
+text = "Signup"
+
+[node name="LoginButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1046204024]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15686275, 0.15686275, 0.15686275, 1)
+theme_override_colors/font_hover_color = Color(0.15686275, 0.15686275, 0.15686275, 1)
+theme_override_styles/normal = ExtResource("4_8a5fm")
+theme_override_styles/hover = ExtResource("5_5gdb2")
+text = "Login"
+
+[node name="Background" type="Panel" parent="." unique_id=9592365]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8y8gy")
+
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=671567628]
+oversampling_override = 1.0

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://park_scene_001"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_park"]
+size = Vector2(32, 32)
+
+[node name="Park" type="Node2D" groups=["parks"]]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.2, 0.75, 0.25, 1)
+polygon = PackedVector2Array(-15, -15, 15, -15, 15, 15, -15, 15)
+
+[node name="Label" type="Label" parent="."]
+position = Vector2(-10, -22)
+text = "🌳"
+theme_override_font_sizes/font_size = 14
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_park")
+

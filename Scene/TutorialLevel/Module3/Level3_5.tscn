@@ -1,0 +1,66 @@
+[gd_scene format=4 uid="uid://cv8cpyf5y0qca"]
+
+[ext_resource type="TileSet" uid="uid://kwkogy285vfn" path="res://ground.tres" id="1_5y8ge"]
+[ext_resource type="Texture2D" uid="uid://fklullxh04fk" path="res://Sprites/Clouds.png" id="1_umjcb"]
+[ext_resource type="PackedScene" uid="uid://jawrpj21edit" path="res://Scene/BBot.tscn" id="2_g50wx"]
+
+[sub_resource type="Gradient" id="Gradient_ygs14"]
+colors = PackedColorArray(0.64705884, 0.84705883, 1, 1, 0.3019608, 0.67058825, 0.96862745, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wbc2e"]
+gradient = SubResource("Gradient_ygs14")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[node name="Level3_5" type="Node2D" unique_id=1374684414]
+z_index = -10
+
+[node name="SkyBackground" type="TextureRect" parent="." unique_id=956823292]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 1158.0
+offset_bottom = 651.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+texture = SubResource("GradientTexture2D_wbc2e")
+
+[node name="Cloud" type="Sprite2D" parent="SkyBackground" unique_id=90233875]
+position = Vector2(165, 114)
+texture = ExtResource("1_umjcb")
+region_enabled = true
+region_rect = Rect2(0, 0, 250, 120.5)
+
+[node name="Cloud2" type="Sprite2D" parent="SkyBackground" unique_id=138624967]
+position = Vector2(395, 169)
+texture = ExtResource("1_umjcb")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud3" type="Sprite2D" parent="SkyBackground" unique_id=1895778853]
+position = Vector2(574, 103)
+texture = ExtResource("1_umjcb")
+region_enabled = true
+region_rect = Rect2(592.20685, 149.33899, 175.2066, 68.59505)
+
+[node name="Cloud4" type="Sprite2D" parent="SkyBackground" unique_id=1542628209]
+position = Vector2(753, 167)
+texture = ExtResource("1_umjcb")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud5" type="Sprite2D" parent="SkyBackground" unique_id=1320580734]
+position = Vector2(904, 97)
+texture = ExtResource("1_umjcb")
+region_enabled = true
+region_rect = Rect2(564.93414, 17.10757, 210.74377, 107.43802)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=923008228]
+tile_map_data = PackedByteArray("AAAMAAoAAgAAAAAAAAANAAoAAgAAAAAAAAAPAAoAAwAAAAAAAAARAAoAAwAAAAAAAAAOAAoAAwAAAAAAAAAQAAoAAgAAAAAAAAASAAoAAgAAAAAAAAAMAAkAAgAAAAAAAAAMAAsAAwAAAAAAAAANAAsAAwAAAAAAAAAOAAsAAgAAAAAAAAAPAAsAAgAAAAAAAAAQAAsAAwAAAAAAAAARAAsAAwAAAAAAAAASAAsAAgAAAAAAAAASAAkAAwAAAAAAAAARAAkAAwAAAAAAAAAQAAkAAgAAAAAAAAAPAAkAAgAAAAAAAAAOAAkAAgAAAAAAAAANAAkAAwAAAAAAAAA=")
+tile_set = ExtResource("1_5y8ge")
+
+[node name="BBot" parent="." unique_id=797494799 instance=ExtResource("2_g50wx")]
+position = Vector2(400, 336)

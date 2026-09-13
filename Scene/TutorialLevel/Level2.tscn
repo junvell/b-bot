@@ -1,0 +1,70 @@
+[gd_scene format=4 uid="uid://cv8cpyf5y0qc1"]
+
+[ext_resource type="Texture2D" uid="uid://fklullxh04fk" path="res://Sprites/Clouds.png" id="1_3gs7l"]
+[ext_resource type="TileSet" uid="uid://kwkogy285vfn" path="res://ground.tres" id="1_5y8ge"]
+[ext_resource type="PackedScene" uid="uid://bl2bv6mpqjhf4" path="res://Scene/Goal/GoalFlag.tscn" id="2_pt77f"]
+[ext_resource type="PackedScene" uid="uid://jawrpj21edit" path="res://Scene/BBot.tscn" id="3_lykrx"]
+
+[sub_resource type="Gradient" id="Gradient_sblpm"]
+colors = PackedColorArray(0.64705884, 0.84705883, 1, 1, 0.3019608, 0.67058825, 0.96862745, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a3dbf"]
+gradient = SubResource("Gradient_sblpm")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[node name="Level2" type="Node2D" unique_id=1863672924]
+z_index = -10
+
+[node name="SkyBackground" type="TextureRect" parent="." unique_id=764598034]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 1158.0
+offset_bottom = 642.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+texture = SubResource("GradientTexture2D_a3dbf")
+
+[node name="Cloud" type="Sprite2D" parent="SkyBackground" unique_id=319873686]
+position = Vector2(166, 99)
+texture = ExtResource("1_3gs7l")
+region_enabled = true
+region_rect = Rect2(0, 0, 250, 120.5)
+
+[node name="Cloud2" type="Sprite2D" parent="SkyBackground" unique_id=1585341333]
+position = Vector2(391, 147)
+texture = ExtResource("1_3gs7l")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud3" type="Sprite2D" parent="SkyBackground" unique_id=1381872820]
+position = Vector2(572, 89)
+texture = ExtResource("1_3gs7l")
+region_enabled = true
+region_rect = Rect2(592.20685, 149.33899, 175.2066, 68.59505)
+
+[node name="Cloud4" type="Sprite2D" parent="SkyBackground" unique_id=1656677817]
+position = Vector2(721, 157)
+texture = ExtResource("1_3gs7l")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud5" type="Sprite2D" parent="SkyBackground" unique_id=1827739361]
+position = Vector2(913, 107)
+texture = ExtResource("1_3gs7l")
+region_enabled = true
+region_rect = Rect2(564.93414, 17.10757, 210.74377, 107.43802)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1851704215]
+tile_map_data = PackedByteArray("AAAPAAsAAgAAAAAAAAAPAAwAAwAAAAAAAAAQAAwAAgAAAAAAAAARAAwAAwAAAAAAAAASAAwAAgAAAAAAAAATAAwAAwAAAAAAAAAUAAwAAgAAAAAAAAAPAAkAAgAAAAAAAAAPAAoAAwAAAAAAAAA=")
+tile_set = ExtResource("1_5y8ge")
+
+[node name="GoalFlag" parent="." unique_id=860427914 instance=ExtResource("2_pt77f")]
+position = Vector2(659, 391)
+
+[node name="BBot" parent="." unique_id=797494793 instance=ExtResource("3_lykrx")]
+position = Vector2(496, 304)

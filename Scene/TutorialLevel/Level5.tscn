@@ -1,0 +1,110 @@
+[gd_scene format=4 uid="uid://cv8cpyf5y0qc4"]
+
+[ext_resource type="Texture2D" uid="uid://fklullxh04fk" path="res://Sprites/Clouds.png" id="1_3bamv"]
+[ext_resource type="TileSet" uid="uid://kwkogy285vfn" path="res://ground.tres" id="1_5y8ge"]
+[ext_resource type="PackedScene" uid="uid://bl2bv6mpqjhf4" path="res://Scene/Goal/GoalFlag.tscn" id="2_pt77f"]
+[ext_resource type="PackedScene" uid="uid://jawrpj21edit" path="res://Scene/BBot.tscn" id="3_5su84"]
+[ext_resource type="PackedScene" uid="uid://tw68kfg1cdn6" path="res://Scene/tree.tscn" id="4_3bamv"]
+
+[sub_resource type="Gradient" id="Gradient_7tgrq"]
+colors = PackedColorArray(0.64705884, 0.84705883, 1, 1, 0.3019608, 0.67058825, 0.96862745, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ofbw3"]
+gradient = SubResource("Gradient_7tgrq")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[node name="Level5" type="Node2D" unique_id=2035678876]
+z_index = -10
+
+[node name="SkyBackground" type="TextureRect" parent="." unique_id=517295148]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 1158.0
+offset_bottom = 642.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+texture = SubResource("GradientTexture2D_ofbw3")
+
+[node name="Cloud" type="Sprite2D" parent="SkyBackground" unique_id=804468646]
+position = Vector2(187, 67.5)
+texture = ExtResource("1_3bamv")
+region_enabled = true
+region_rect = Rect2(0, 0, 250, 120.5)
+
+[node name="Cloud2" type="Sprite2D" parent="SkyBackground" unique_id=1283613470]
+position = Vector2(417, 122.5)
+texture = ExtResource("1_3bamv")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud3" type="Sprite2D" parent="SkyBackground" unique_id=1998182546]
+position = Vector2(596, 56.5)
+texture = ExtResource("1_3bamv")
+region_enabled = true
+region_rect = Rect2(592.20685, 149.33899, 175.2066, 68.59505)
+
+[node name="Cloud4" type="Sprite2D" parent="SkyBackground" unique_id=992191834]
+position = Vector2(775, 120.5)
+texture = ExtResource("1_3bamv")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud5" type="Sprite2D" parent="SkyBackground" unique_id=2056807590]
+position = Vector2(926, 50.5)
+texture = ExtResource("1_3bamv")
+region_enabled = true
+region_rect = Rect2(564.93414, 17.10757, 210.74377, 107.43802)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=184735656]
+tile_map_data = PackedByteArray("AAAOAAkAAgAAAAAAAAAOAAoAAwAAAAAAAAASAAkAAgAAAAAAAAASAAoAAgAAAAAAAAALAAgAAgAAAAAAAAAMAAgAAgAAAAAAAAANAAgAAwAAAAAAAAAOAAgAAgAAAAAAAAAPAAoAAgAAAAAAAAAQAAoAAgAAAAAAAAARAAoAAwAAAAAAAAASAAgAAgAAAAAAAAATAAgAAwAAAAAAAAAUAAgAAgAAAAAAAAAVAAgAAwAAAAAAAAAWAAgAAgAAAAAAAAA=")
+tile_set = ExtResource("1_5y8ge")
+
+[node name="GoalFlag" parent="." unique_id=366096645 instance=ExtResource("2_pt77f")]
+position = Vector2(725, 262)
+
+[node name="BBot" parent="." unique_id=797494793 instance=ExtResource("3_5su84")]
+position = Vector2(368, 272)
+
+[node name="Tree" parent="." unique_id=464304752 instance=ExtResource("4_3bamv")]
+position = Vector2(496, 320)
+
+[node name="Tree2" parent="." unique_id=874513086 instance=ExtResource("4_3bamv")]
+position = Vector2(496, 290)
+
+[node name="Tree3" parent="." unique_id=786565257 instance=ExtResource("4_3bamv")]
+position = Vector2(527, 320)
+
+[node name="Tree4" parent="." unique_id=1434114530 instance=ExtResource("4_3bamv")]
+position = Vector2(559, 320)
+
+[node name="Tree5" parent="." unique_id=1608501982 instance=ExtResource("4_3bamv")]
+position = Vector2(559, 290)
+
+[node name="Tree6" parent="." unique_id=493153167 instance=ExtResource("4_3bamv")]
+position = Vector2(624, 336)
+
+[node name="Tree7" parent="." unique_id=334925523 instance=ExtResource("4_3bamv")]
+position = Vector2(624, 353)
+
+[node name="Tree9" parent="." unique_id=475885900 instance=ExtResource("4_3bamv")]
+position = Vector2(496, 400)
+
+[node name="Tree10" parent="." unique_id=731539990 instance=ExtResource("4_3bamv")]
+position = Vector2(528, 400)
+
+[node name="Tree11" parent="." unique_id=1495265178 instance=ExtResource("4_3bamv")]
+position = Vector2(560, 400)
+
+[node name="Tree12" parent="." unique_id=939503331 instance=ExtResource("4_3bamv")]
+position = Vector2(592, 400)
+
+[node name="Tree13" parent="." unique_id=801075289 instance=ExtResource("4_3bamv")]
+position = Vector2(591, 256)
+
+[node name="Tree8" parent="." unique_id=937669455 instance=ExtResource("4_3bamv")]
+position = Vector2(464, 400)

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bl2bv6mpqjhf4"]
+
+[ext_resource type="Texture2D" uid="uid://dq6mb4qtkgmyb" path="res://Sprites/flag animation.png" id="1_ltdly"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5pshy"]
+size = Vector2(24, 50)
+
+[node name="GoalFlag" type="Node2D" unique_id=1343890254 groups=["goals"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1066239774]
+texture = ExtResource("1_ltdly")
+region_enabled = true
+region_rect = Rect2(125, 7, 32, 51)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=602716486]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=851578208]
+position = Vector2(-2, 0)
+shape = SubResource("RectangleShape2D_5pshy")

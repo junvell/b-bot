@@ -1,0 +1,240 @@
+[gd_scene format=3 uid="uid://bfe1cqgrqxi0r"]
+
+[ext_resource type="Script" uid="uid://bg33ivpym3afe" path="res://Scene/main.gd" id="1_3amdw"]
+[ext_resource type="Texture2D" uid="uid://bt6gg6jlsnyh4" path="res://icon.svg" id="2_2wwxx"]
+[ext_resource type="Script" uid="uid://xbu10jeibxdq" path="res://Scripts/b_bot.gd" id="3_3amdw"]
+[ext_resource type="PackedScene" uid="uid://c7laqh0tmuicd" path="res://Scene/Action_block.tscn" id="4_2wwxx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ow1sv"]
+size = Vector2(104, 108)
+
+[node name="Main" type="Node2D" unique_id=1976293878]
+script = ExtResource("1_3amdw")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=341177856]
+position = Vector2(574, 324)
+
+[node name="BBot" type="Sprite2D" parent="." unique_id=51547300]
+position = Vector2(560, 304)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_2wwxx")
+script = ExtResource("3_3amdw")
+
+[node name="Area2D" type="Area2D" parent="BBot" unique_id=1962235502]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BBot/Area2D" unique_id=109796953]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_ow1sv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1605043225]
+
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=767327321]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="RunButton" type="Button" parent="CanvasLayer/HUD" unique_id=2118828804]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 9.0
+offset_right = 125.0
+offset_bottom = 40.0
+text = "Run Program"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HUD" unique_id=117160474]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 602.0
+offset_top = 8.0
+offset_right = 702.0
+offset_bottom = 48.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="WoodLabel" type="Label" parent="CanvasLayer/HUD/HBoxContainer" unique_id=1284242716]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/HUD" unique_id=1123197677]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 436.0
+offset_top = 8.0
+offset_right = 536.0
+offset_bottom = 48.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/HUD/HBoxContainer2" unique_id=-1294967295]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/HUD" unique_id=779466968]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 287.0
+offset_top = 7.0
+offset_right = 387.0
+offset_bottom = 47.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="PopLabel" type="Label" parent="CanvasLayer/HUD/HBoxContainer3" unique_id=-1294967294]
+layout_mode = 2
+
+[node name="Terminal" type="Control" parent="CanvasLayer" unique_id=1083583605]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 3
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Terminal" unique_id=926901062]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sequence" type="VBoxContainer" parent="CanvasLayer/Terminal/ScrollContainer" unique_id=1906605882]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Palette" type="Control" parent="CanvasLayer" unique_id=1642270611]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Palette" unique_id=1478539318]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Block_ up" parent="CanvasLayer/Palette/HBoxContainer" unique_id=1985788993 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+command_id = "up"
+
+[node name="Block_down" parent="CanvasLayer/Palette/HBoxContainer" unique_id=2057261973 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+command_id = "down"
+
+[node name="Block3_left" parent="CanvasLayer/Palette/HBoxContainer" unique_id=1788208368 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+command_id = "left"
+
+[node name="Block4_right" parent="CanvasLayer/Palette/HBoxContainer" unique_id=1510288899 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+command_id = "right"
+
+[node name="Collect" parent="CanvasLayer/Palette/HBoxContainer" unique_id=1500778777 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+command_id = "collect"
+
+[node name="Build" parent="CanvasLayer/Palette/HBoxContainer" unique_id=685511346 instance=ExtResource("4_2wwxx")]
+layout_mode = 2
+command_id = "build"
+
+[node name="MissionPanel" type="PanelContainer" parent="CanvasLayer" unique_id=1890369192]
+custom_minimum_size = Vector2(200, 200)
+offset_left = 7.0
+offset_top = 45.0
+offset_right = 207.0
+offset_bottom = 245.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MissionPanel" unique_id=805917193]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Title" type="Label" parent="CanvasLayer/MissionPanel/VBoxContainer" unique_id=1156387702]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MissionPanel" unique_id=1359473796]
+layout_mode = 2
+
+[node name="Task" type="Label" parent="CanvasLayer/MissionPanel/VBoxContainer2" unique_id=453773048]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="WinPopup" type="Panel" parent="CanvasLayer" unique_id=1067184431]
+visible = false
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Message" type="Label" parent="CanvasLayer/WinPopup" unique_id=2139674011]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="PythonCode" type="CodeEdit" parent="CanvasLayer/WinPopup" unique_id=979121033]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -125.0
+offset_right = 125.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "
+"
+
+[node name="NextButton" type="Button" parent="CanvasLayer/WinPopup" unique_id=1569871078]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -31.0
+offset_right = 45.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Next Level"
+
+[node name="EditorButton" type="Button" parent="CanvasLayer" unique_id=1981302265]
+visible = false
+custom_minimum_size = Vector2(60, 30)
+offset_left = 1023.0
+offset_top = 12.0
+offset_right = 1124.0
+offset_bottom = 42.0
+text = "Editor"
+
+[node name="LevelContainer" type="Node2D" parent="." unique_id=1957539024]
+
+[node name="CityGrid" type="Node2D" parent="." unique_id=1957539025]
+
+[connection signal="pressed" from="CanvasLayer/HUD/RunButton" to="." method="_on_run_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/WinPopup/NextButton" to="." method="_on_next_button_pressed"]

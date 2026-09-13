@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://cmsy3wid3i5a8"]
+
+[ext_resource type="Script" uid="uid://dm1hvb1sdrrvg" path="res://Scene/LevelSelect.gd" id="1_t27y4"]
+[ext_resource type="FontFile" uid="uid://fps12x5mfajs" path="res://Sprites/Font/Orbitron-VariableFont_wght.ttf" id="2_swkvb"]
+[ext_resource type="StyleBox" uid="uid://dq180tm7nuldv" path="res://levelbuttonstyle.tres" id="3_7270e"]
+
+[sub_resource type="Gradient" id="Gradient_t27y4"]
+offsets = PackedFloat32Array(0.18007663, 1)
+colors = PackedColorArray(0.15294118, 0.13725491, 0.36078432, 1, 0.05882353, 0.09019608, 0.16470589, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u2h53"]
+gradient = SubResource("Gradient_t27y4")
+fill = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_c1guo"]
+line_spacing = 5.0
+font_size = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvodh"]
+bg_color = Color(0, 0, 0, 0.7058824)
+border_width_left = 5
+border_color = Color(0.13333334, 0.77254903, 0.36862746, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="LevelSelect" type="Control" unique_id=934283471]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t27y4")
+
+[node name="ColorRect" type="TextureRect" parent="." unique_id=928806745]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_u2h53")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=194391085]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1851424785]
+layout_mode = 2
+theme_override_constants/separation = 150
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=815461439]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_swkvb")
+theme_override_font_sizes/font_size = 20
+text = "Select a Level"
+label_settings = SubResource("LabelSettings_c1guo")
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1732341440]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 30
+columns = 5
+
+[node name="Level1" type="Button" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=159353012]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("3_7270e")
+text = "Level 1"
+
+[node name="Level2" type="Button" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=2000642283]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("3_7270e")
+text = "Level 2"
+
+[node name="Level3" type="Button" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1068155904]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("3_7270e")
+text = "Level 3"
+
+[node name="Level4" type="Button" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1646730618]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("3_7270e")
+text = "Level 4"
+
+[node name="Level5" type="Button" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=499931294]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("3_7270e")
+text = "Level 5"
+
+[node name="BackButton" type="Button" parent="." unique_id=1028734199]
+layout_mode = 0
+offset_left = 1040.0
+offset_top = 578.0
+offset_right = 1146.0
+offset_bottom = 635.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lvodh")
+text = "Back "
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

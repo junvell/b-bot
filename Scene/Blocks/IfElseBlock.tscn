@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://c7laqh0tmuicx"]
+
+[ext_resource type="Script" uid="uid://cfcmh58vdf01h" path="res://Scripts/if_else_block.gd" id="1_ifel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjfcm"]
+bg_color = Color(0.93333334, 0.65882355, 0.8509804, 0.91764706)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58t1c"]
+bg_color = Color(1, 0.42352942, 0.7764706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2edmq"]
+bg_color = Color(1, 0.42352942, 0.7764706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wbcdk"]
+bg_color = Color(1, 0.42352942, 0.7764706, 1)
+
+[node name="IfElseBlock" type="PanelContainer" unique_id=1828183242 groups=["compound_blocks"]]
+custom_minimum_size = Vector2(200, 150)
+theme_override_styles/panel = SubResource("StyleBoxFlat_hjfcm")
+script = ExtResource("1_ifel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1560887035]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer" unique_id=1188856724]
+layout_mode = 2
+
+[node name="IfHeader" type="Button" parent="VBoxContainer/Header" unique_id=1499316959]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_58t1c")
+text = "if b_bot.is_path_ahead():"
+
+[node name="RemoveButton" type="Button" parent="VBoxContainer/Header" unique_id=2038458858]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_2edmq")
+text = "X"
+
+[node name="ConditionSlot" type="VBoxContainer" parent="VBoxContainer" unique_id=901325907]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="IfSlot" type="VBoxContainer" parent="VBoxContainer" unique_id=901325906]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="ElseHeader" type="Button" parent="VBoxContainer" unique_id=1913113807]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_wbcdk")
+text = "else:"
+
+[node name="ElseSlot" type="VBoxContainer" parent="VBoxContainer" unique_id=32563733]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4

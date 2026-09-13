@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://cl31bjitis1u3"]
+
+[ext_resource type="Script" uid="uid://c4yomfvu0321n" path="res://Scripts/tutorial_overlay.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.15, 0.15, 0.2, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.4, 0.5, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_desc"]
+font_color = Color(0.9, 0.9, 0.9, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.2, 0.6, 0.3, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="TutorialOverlay" type="CanvasLayer" unique_id=1215059891]
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Panel" type="Panel" parent="." unique_id=737470565]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1891042836]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Panel/VBoxContainer" unique_id=484627782]
+layout_mode = 2
+text = "How to Play"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="Panel/VBoxContainer" unique_id=2122840162]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="BlocksContainer" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=1421139984]
+layout_mode = 2
+alignment = 1
+
+[node name="Block1" type="ColorRect" parent="Panel/VBoxContainer/BlocksContainer" unique_id=97155600]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.2, 0.6, 0.8, 1)
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/BlocksContainer/Block1" unique_id=998066604]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpacerB1" type="Control" parent="Panel/VBoxContainer/BlocksContainer" unique_id=1577871808]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Block2" type="ColorRect" parent="Panel/VBoxContainer/BlocksContainer" unique_id=297107077]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.2, 0.7, 0.4, 1)
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/BlocksContainer/Block2" unique_id=379225876]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GET"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpacerB2" type="Control" parent="Panel/VBoxContainer/BlocksContainer" unique_id=842838442]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Block3" type="ColorRect" parent="Panel/VBoxContainer/BlocksContainer" unique_id=338242232]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.8, 0.5, 0.2, 1)
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/BlocksContainer/Block3" unique_id=716833248]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "RUN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer2" type="Control" parent="Panel/VBoxContainer" unique_id=1822920692]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Description" type="Label" parent="Panel/VBoxContainer" unique_id=1460429149]
+layout_mode = 2
+text = "Drag blocks from the palette to the Program area, then press Run Program."
+label_settings = SubResource("LabelSettings_desc")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer3" type="Control" parent="Panel/VBoxContainer" unique_id=1580597239]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="Panel/VBoxContainer" unique_id=1123049625]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "Start Mission"

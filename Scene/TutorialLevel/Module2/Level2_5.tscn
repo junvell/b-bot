@@ -1,0 +1,80 @@
+[gd_scene format=4 uid="uid://cv8cpyf5y0qda"]
+
+[ext_resource type="TileSet" uid="uid://kwkogy285vfn" path="res://ground.tres" id="1_5y8ge"]
+[ext_resource type="Texture2D" uid="uid://fklullxh04fk" path="res://Sprites/Clouds.png" id="1_a57ii"]
+[ext_resource type="PackedScene" uid="uid://jawrpj21edit" path="res://Scene/BBot.tscn" id="3_g50wx"]
+[ext_resource type="PackedScene" uid="uid://tw68kfg1cdn6" path="res://Scene/tree.tscn" id="4_tree"]
+[ext_resource type="PackedScene" uid="uid://dqjer7mptl2v3" path="res://Scene/Warehouse.tscn" id="5_warehouse"]
+
+[sub_resource type="Gradient" id="Gradient_kq4h6"]
+colors = PackedColorArray(0.64705884, 0.84705883, 1, 1, 0.3019608, 0.67058825, 0.96862745, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bb2jy"]
+gradient = SubResource("Gradient_kq4h6")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[node name="Level2_5" type="Node2D" unique_id=1374684413]
+z_index = -10
+
+[node name="SkyBackground" type="TextureRect" parent="." unique_id=1631345746]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 1158.0
+offset_bottom = 651.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+texture = SubResource("GradientTexture2D_bb2jy")
+
+[node name="Cloud" type="Sprite2D" parent="SkyBackground" unique_id=1768889768]
+position = Vector2(165, 114)
+texture = ExtResource("1_a57ii")
+region_enabled = true
+region_rect = Rect2(0, 0, 250, 120.5)
+
+[node name="Cloud2" type="Sprite2D" parent="SkyBackground" unique_id=1226784924]
+position = Vector2(395, 169)
+texture = ExtResource("1_a57ii")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud3" type="Sprite2D" parent="SkyBackground" unique_id=1625862665]
+position = Vector2(574, 103)
+texture = ExtResource("1_a57ii")
+region_enabled = true
+region_rect = Rect2(592.20685, 149.33899, 175.2066, 68.59505)
+
+[node name="Cloud4" type="Sprite2D" parent="SkyBackground" unique_id=1048964834]
+position = Vector2(753, 167)
+texture = ExtResource("1_a57ii")
+region_enabled = true
+region_rect = Rect2(379.81012, 149.33899, 159.50415, 68.59505)
+
+[node name="Cloud5" type="Sprite2D" parent="SkyBackground" unique_id=580430538]
+position = Vector2(904, 97)
+texture = ExtResource("1_a57ii")
+region_enabled = true
+region_rect = Rect2(564.93414, 17.10757, 210.74377, 107.43802)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=923008227]
+tile_map_data = PackedByteArray("AAAMAAoAAgAAAAAAAAANAAoAAwAAAAAAAAAPAAoAAgAAAAAAAAARAAoAAgAAAAAAAAATAAoAAwAAAAAAAAAVAAoAAgAAAAAAAAAMAAkAAgAAAAAAAAANAAkAAwAAAAAAAAAOAAkAAwAAAAAAAAAPAAkAAgAAAAAAAAAQAAkAAgAAAAAAAAARAAkAAgAAAAAAAAASAAkAAwAAAAAAAAATAAkAAwAAAAAAAAAUAAkAAgAAAAAAAAAVAAkAAgAAAAAAAAAOAAoAAgAAAAAAAAAQAAoAAwAAAAAAAAASAAoAAgAAAAAAAAAUAAoAAgAAAAAAAAALAAoAAwAAAAAAAAALAAkAAgAAAAAAAAA=")
+tile_set = ExtResource("1_5y8ge")
+
+[node name="Tree" parent="." unique_id=464304774 instance=ExtResource("4_tree")]
+position = Vector2(400, 326)
+
+[node name="Tree2" parent="." unique_id=464304775 instance=ExtResource("4_tree")]
+position = Vector2(432, 326)
+
+[node name="Tree3" parent="." unique_id=464304776 instance=ExtResource("4_tree")]
+position = Vector2(464, 326)
+
+[node name="Warehouse" parent="." unique_id=1286608622 instance=ExtResource("5_warehouse")]
+position = Vector2(592, 326)
+
+[node name="BBot" parent="." unique_id=797494798 instance=ExtResource("3_g50wx")]
+position = Vector2(368, 336)

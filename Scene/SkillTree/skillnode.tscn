@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8k348kxxxx"]
+
+[ext_resource type="Script" path="res://Scene/SkillTree/SkillNode.gd" id="1_sknd"]
+
+[node name="SkillNode" type="PanelContainer"]
+custom_minimum_size = Vector2(150, 80)
+offset_right = 150.0
+offset_bottom = 80.0
+script = ExtResource("1_sknd")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Skill Name"
+horizontal_alignment = 1
+
+[node name="CostLabel" type="Label" parent="VBox"]
+layout_mode = 2
+text = "$100"
+horizontal_alignment = 1
+
+[node name="BadgeLabel" type="Label" parent="VBox"]
+visible = false
+layout_mode = 2
+text = "[INSTALLED]"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+flat = true

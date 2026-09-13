@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://findnearest_block_001"]
+
+[ext_resource type="Script" path="res://Scripts/find_nearest_block.gd" id="1_fnb"]
+
+[node name="FindNearestBlock" type="Button"]
+custom_minimum_size = Vector2(200, 36)
+script = ExtResource("1_fnb")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PrefixLabel" type="Label" parent="HBox"]
+layout_mode = 2
+text = " Find Nearest: "
+
+[node name="TypeOption" type="OptionButton" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+

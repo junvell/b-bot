@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c7laqh0tmuicd"]
+
+[ext_resource type="Script" uid="uid://cbuhscu4rb6d0" path="res://Scripts/action_block.gd" id="1_5enca"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5enca"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="ActionBlock" type="Button" unique_id=1500778777]
+custom_minimum_size = Vector2(100, 40)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_5enca")
+script = ExtResource("1_5enca")

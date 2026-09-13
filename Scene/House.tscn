@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://crp56qhu1wuhe"]
+
+[ext_resource type="Script" uid="uid://18skbou71r80" path="res://Scripts/house.gd" id="1_tcve8"]
+[ext_resource type="Texture2D" uid="uid://dyrmv0va8nlcj" path="res://Sprites/House/house.1.png" id="2_tcve8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tcve8"]
+size = Vector2(20, 27)
+
+[node name="House" type="Node2D" unique_id=1931933449 groups=["houses", "obstacles"]]
+script = ExtResource("1_tcve8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1722935769]
+position = Vector2(-16, -31)
+texture = ExtResource("2_tcve8")
+centered = false
+region_rect = Rect2(1851, 2128, 56, 88)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1346639405]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1997760521]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_tcve8")

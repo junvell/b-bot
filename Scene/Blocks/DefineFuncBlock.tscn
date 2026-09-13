@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://deffunc_block_001"]
+
+[ext_resource type="Script" path="res://Scripts/define_func_block.gd" id="1_dfb"]
+
+[node name="DefineFuncBlock" type="PanelContainer"]
+custom_minimum_size = Vector2(220, 80)
+script = ExtResource("1_dfb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DefLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = " def "
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+
+[node name="NameEdit" type="LineEdit" parent="VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "function_name"
+text = "my_function"
+
+[node name="ColonLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = ":"
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+
+[node name="BodyHeader" type="Button" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "▼ Body"
+
+[node name="RemoveButton" type="Button" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "✕"
+
+[node name="BodySlot" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://c7laqh0tmuicw"]
+
+[ext_resource type="Script" uid="uid://b5v0ae2k1g1q" path="res://Scripts/while_loop_block.gd" id="1_whlb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbnur"]
+bg_color = Color(0.4392157, 0.8509804, 0.85490197, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwatj"]
+bg_color = Color(0, 0.80784315, 0.78039217, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_423gc"]
+bg_color = Color(0, 0.80784315, 0.78039217, 1)
+
+[node name="WhileLoopBlock" type="PanelContainer" unique_id=430893365 groups=["compound_blocks"]]
+custom_minimum_size = Vector2(200, 100)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jbnur")
+script = ExtResource("1_whlb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1762031404]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer" unique_id=69374679]
+layout_mode = 2
+
+[node name="BodyHeader" type="Button" parent="VBoxContainer/Header" unique_id=1143570253]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_rwatj")
+text = "while not b_bot.at_goal():"
+
+[node name="RemoveButton" type="Button" parent="VBoxContainer/Header" unique_id=1781101432]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_423gc")
+text = "X"
+
+[node name="BodySlot" type="VBoxContainer" parent="VBoxContainer" unique_id=553237228]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4

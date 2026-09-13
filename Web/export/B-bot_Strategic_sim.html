@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>B-Bot: Python Automation</title>
+    <!-- LOAD SKULPT ENGINE -->
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="B-bot_Strategic_sim.js"></script>
+<script>
+        var engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"B-bot_Strategic_sim","experimentalVK":false,"fileSizes":{"B-bot_Strategic_sim.pck":527548,"B-bot_Strategic_sim.wasm":35754592},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});
+        engine.startGame();
+
+        window.runPythonCode = function(code) {
+            Sk.configure({
+                output: (t) => console.log(t),
+                read: (x) => { if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) throw "Err"; return Sk.builtinFiles["files"][x]; }
+            });
+
+            // --- RESET ALL SIMULATED TRACKERS ---
+            window.sim = {
+                dx: 0, dy: 0,
+                money: 0,
+                wood: 0,
+                stone: 0,
+                wood_inv: 0,
+                stone_inv: 0,
+                pop: 0,
+                build_count: 0
+            };
+
+            var moveCmds = { "move_right": [1, 0], "move_left": [-1, 0], "move_up": [0, -1], "move_down": [0, 1] };
+            var commands = ["move_up", "move_down", "move_right", "move_left", "collect", "deposit", "chop", "build_house", "build_road", "build"];
+            
+            commands.forEach(function(cmd) {
+                if (!Sk.builtins[cmd]) {
+                    Sk.builtins[cmd] = new Sk.builtin.func(function(arg) {
+                        if (window.pythonCommandQueue.length >= 5000) {
+                            throw new Sk.builtin.RuntimeError("Command queue full (5000). Your loop is infinite or checking a state Godot hasn't reached yet.");
+                        }
+
+                        var argVal = (arg && arg.v) ? arg.v : "";
+                        window.pythonCommandQueue.push(argVal !== "" ? cmd + "|" + argVal : cmd);
+
+                        // --- UPDATE PREDICTED STATE (The Magic Fix) ---
+                        if (moveCmds[cmd]) {
+                            var gs = (window.botState && window.botState.grid_size) ? window.botState.grid_size : 32;
+                            window.sim.dx += moveCmds[cmd][0] * gs;
+                            window.sim.dy += moveCmds[cmd][1] * gs;
+                        }
+                        if (cmd === "collect" || cmd === "chop") {
+                            window.sim.wood_inv += 10; // Predict 10 wood per chop
+                        }
+                        if (cmd === "deposit") {
+                            window.sim.wood += (window.botState.wood_inventory + window.sim.wood_inv);
+                            window.sim.wood_inv = -(window.botState.wood_inventory); // Clear bag in prediction
+                        }
+                        if (cmd === "build" || cmd === "build_house") {
+                            window.sim.build_count += 1;
+                            window.sim.money -= 100; // Predict $100 cost
+                            window.sim.pop += 1;
+                        }
+                        if (cmd === "build_road") {
+                            window.sim.build_count += 1;
+                            window.sim.money -= 30;
+                        }
+
+                        return Sk.builtin.none.none$;
+                    });
+                }
+            });
+
+            // --- SYNC QUERIES (Real Godot Data + JS Prediction) ---
+            var syncQueries = {
+                "scan": function() { return window.botState ? window.botState.scan : "empty"; },
+                "at_goal": function() {
+                    if (!window.botState) return false;
+                    var simX = window.botState.bot_x + window.sim.dx;
+                    var simY = window.botState.bot_y + window.sim.dy;
+                    var tol = (window.botState.grid_size || 32) / 2;
+                    return (Math.abs(simX - window.botState.goal_x) < tol && Math.abs(simY - window.botState.goal_y) < tol);
+                },
+                "get_build_count": function() { return (window.botState ? window.botState.build_count : 0) + window.sim.build_count; },
+                "get_wood": function() { return (window.botState ? window.botState.wood : 0) + window.sim.wood; },
+                "get_money": function() { return (window.botState ? window.botState.money : 500) + window.sim.money; },
+                "get_wood_inventory": function() { return (window.botState ? window.botState.wood_inventory : 0) + window.sim.wood_inv; },
+                "get_population": function() { return (window.botState ? window.botState.population : 0) + window.sim.pop; },
+                "is_path_ahead": function() { return window.botState ? window.botState.is_path_ahead : false; }
+            };
+
+            Object.keys(syncQueries).forEach(function(key) {
+                if (!Sk.builtins[key]) {
+                    Sk.builtins[key] = new Sk.builtin.func(function() {
+                        var val = syncQueries[key]();
+                        if (typeof val === "boolean") return Sk.builtin.bool(val);
+                        if (typeof val === "string") return new Sk.builtin.str(val);
+                        return new Sk.builtin.int_(val);
+                    });
+                }
+            });
+
+            var prefix = [
+                "class _BBot:",
+                "    def move_up(self): return move_up()",
+                "    def move_down(self): return move_down()",
+                "    def move_right(self): return move_right()",
+                "    def move_left(self): return move_left()",
+                "    def collect(self): return collect()",
+                "    def deposit(self): return deposit()",
+                "    def chop(self): return chop()",
+                "    def build(self, type): return build(type)",
+                "    def scan(self): return scan()",
+                "    def at_goal(self): return at_goal()",
+                "    def is_path_ahead(self): return is_path_ahead()",
+                "    @property\n    def build_count(self): return get_build_count()",
+                "    @property\n    def wood(self): return get_wood()",
+                "    @property\n    def money(self): return get_money()",
+                "    @property\n    def wood_inventory(self): return get_wood_inventory()",
+                "    @property\n    def population(self): return get_population()",
+                "b_bot = _BBot()",
+                "class _City:",
+                "    @property\n    def money(self): return get_money()",
+                "    @property\n    def wood(self): return get_wood()",
+                "    @property\n    def population(self): return get_population()",
+                "city = _City()",
+                ""
+            ].join("\n");
+
+            try {
+                Sk.importMainWithBody("<stdin>", false, prefix + code, true);
+            } catch (e) {
+                alert("Python Error: " + e);
+            }
+        };
+    </script>
+</body>
+</html>
