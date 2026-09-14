@@ -157,23 +157,31 @@ func _on_economy_tick():
 
 func get_city_map_as_json() -> Array:
 	var map_data = []
+	if not get_tree():
+		return map_data
 	
 	# Get all nodes that are currently in these groups
 	var houses = get_tree().get_nodes_in_group("houses")
 	var roads = get_tree().get_nodes_in_group("roads")
-	
-	print("[DEBUG] Save Check: Found ", houses.size(), " houses and ", roads.size(), " roads.")
+	var warehouses = get_tree().get_nodes_in_group("warehouse")
+	var parks = get_tree().get_nodes_in_group("parks")
+	var quarries = get_tree().get_nodes_in_group("quarries")
 	
 	for b in houses:
 		map_data.append({"pos_x": b.position.x, "pos_y": b.position.y, "type": "house"})
 	for r in roads:
 		map_data.append({"pos_x": r.position.x, "pos_y": r.position.y, "type": "road"})
+	for w in warehouses:
+		if not w.is_in_group("base"): # Don't duplicate starting base
+			map_data.append({"pos_x": w.position.x, "pos_y": w.position.y, "type": "warehouse"})
+	for p in parks:
+		map_data.append({"pos_x": p.position.x, "pos_y": p.position.y, "type": "park"})
+	for q in quarries:
+		map_data.append({"pos_x": q.position.x, "pos_y": q.position.y, "type": "quarry"})
 		
 	return map_data
 
-# UPDATED: Saves EVERYTHING to the cloud
 # --- SAVE TO CLOUD ---
-# Saves EVERYTHING to the cloud
 func save_game_to_cloud():
 	# 1. THE GUARD: Don't save if we are still loading from the internet
 	if not is_data_ready:
@@ -201,17 +209,13 @@ func save_game_to_cloud():
 	
 	# 3. --- THE CITY SHIELD ---
 	if is_free_will_mode:
-		# If we are physically in the Open World, scan the screen for new houses
 		var current_map = get_city_map_as_json()
 		data["city_map"] = current_map
-		saved_city_map = current_map # Update the local memory too
+		saved_city_map = current_map
 		print("[SAVE] Updating city layout...")
 	else:
-		# If we are in the Main Menu, don't scan the screen (it's empty!)
-		# Instead, send the 'saved_city_map' we already have in memory
 		data["city_map"] = saved_city_map
 		print("[SAVE] Preserving existing city layout while in menu.")
-	# ---------------------------
 
 	# 4. Push to Supabase
 	var query = SupabaseQuery.new().from("profiles").update(data).eq("id", user.id)
@@ -220,16 +224,12 @@ func save_game_to_cloud():
 	var result = await task.completed 
 	return result
 
-# Loads everything when the user logs in
 # --- LOAD FROM CLOUD ---
-# Loads everything when the user logs in
 func load_game_from_cloud():
 	var user = Supabase.auth.client 
 	if user == null: return
 
-	# --- THE GUARD: Lock saving until loading is 100% finished ---
 	is_data_ready = false 
-	
 	reset_session_data()
 	saved_city_map.clear() 
 
@@ -242,7 +242,6 @@ func load_game_from_cloud():
 	if result.error == null and result.data is Array and result.data.size() > 0:
 		var profile = result.data[0]
 		
-		# Map data back to Godot variables
 		money = int(profile.get("money", 500))
 		wood = int(profile.get("wood", 0))
 		stone = int(profile.get("stone", 0))
@@ -265,23 +264,84 @@ func load_game_from_cloud():
 		update_stats()
 		era_changed.emit(current_era)
 		
-		# --- THE GUARD: Data is safe to be saved now ---
 		is_data_ready = true 
 		print("[LOAD SUCCESS] Progress and Map restored for: ", user.email)
 	else:
-		# If it's a new user, allow saving so they can create their first profile
 		is_data_ready = true 
 		print("[LOAD] No profile found or server error. Ready for new user.")
 
-func add_history_entry(lvl_name: String, code: String):
-	var user = Supabase.auth.get_user()
+func get_city_summary() -> Dictionary:
+	var summary = {
+		"house": 0,
+		"road": 0,
+		"warehouse": 0,
+		"park": 0,
+		"quarry": 0,
+		"total": 0
+	}
+	var map_to_scan = saved_city_map
+	if is_free_will_mode and get_tree():
+		var current = get_city_map_as_json()
+		if current.size() > 0:
+			map_to_scan = current
+			
+	for item in map_to_scan:
+		if item is Dictionary and item.has("type"):
+			var t = item["type"]
+			if summary.has(t):
+				summary[t] += 1
+			else:
+				summary[t] = 1
+			summary["total"] += 1
+	return summary
+
+const HISTORY_FILE_PATH = "user://execution_history.json"
+
+func get_history_entries() -> Array:
+	if not FileAccess.file_exists(HISTORY_FILE_PATH):
+		return []
+	var file = FileAccess.open(HISTORY_FILE_PATH, FileAccess.READ)
+	if not file:
+		return []
+	var text = file.get_as_text()
+	file.close()
+	var json = JSON.new()
+	var err = json.parse(text)
+	if err == OK and json.data is Array:
+		return json.data
+	return []
+
+func add_history_entry(lvl_name: String, code: String, mode: String = "Blocks"):
+	var timestamp = Time.get_datetime_string_from_system(false, true).replace("T", " ")
+	var entry = {
+		"level_name": lvl_name,
+		"python_code": code,
+		"timestamp": timestamp,
+		"mode": mode
+	}
+	
+	# 1. Save to local storage cache
+	var current_history = get_history_entries()
+	current_history.push_front(entry)
+	if current_history.size() > 50:
+		current_history = current_history.slice(0, 50)
+	
+	var file = FileAccess.open(HISTORY_FILE_PATH, FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(current_history, "\t"))
+		file.close()
+	print("[HISTORY] Logged entry: ", lvl_name, " at ", timestamp)
+	
+	# 2. Push to Supabase if authenticated
+	var user = Supabase.auth.client
 	if user:
-		var data = {
+		var cloud_data = {
 			"user_id": user.id,
 			"level_name": lvl_name,
-			"python_code": code
+			"python_code": code,
+			"created_at": timestamp
 		}
-		var query = Supabase.database.query(SupabaseQuery.new().from("history").insert([data]))
+		var query = Supabase.database.query(SupabaseQuery.new().from("history").insert([cloud_data]))
 		await query.completed
 
 # --- SKILL TREE LOGIC ---

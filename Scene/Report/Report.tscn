@@ -1,0 +1,372 @@
+[gd_scene format=3 uid="uid://df7s8g92hj31k"]
+
+[ext_resource type="Script" path="res://Scene/Report/Report.gd" id="1_report"]
+[ext_resource type="FontFile" uid="uid://fps12x5mfajs" path="res://Sprites/Font/Orbitron-VariableFont_wght.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0862745, 0.0901961, 0.156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.121569, 0.129412, 0.223529, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.247059, 0.231373, 0.443137, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_top = 14.0
+content_margin_right = 16.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.380392, 0.243137, 0.72549, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.10, 0.10, 0.19, 1)
+border_width_bottom = 2
+border_color = Color(0.247059, 0.231373, 0.443137, 1)
+
+[node name="Report" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_report")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="RootVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderBg" type="Panel" parent="RootVBox"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="MarginContainer" type="MarginContainer" parent="RootVBox/HeaderBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="HeaderBar" type="HBoxContainer" parent="RootVBox/HeaderBg/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BackButton" type="Button" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "< BACK"
+
+[node name="TitleLabel" type="Label" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "STUDENT PROGRESS & ARCHITECT REPORT"
+vertical_alignment = 1
+
+[node name="UserLabel" type="Label" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 12
+text = "Account: Loading..."
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ScrollArea" type="ScrollContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ContentVBox" type="VBoxContainer" parent="RootVBox/ScrollArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="MarginWrap" type="MarginContainer" parent="RootVBox/ScrollArea/ContentVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="InnerVBox" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TopRow" type="HBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="CityPanel" type="PanelContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CityTitle" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.25, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "OPEN WORLD CITY"
+
+[node name="HSeparator1" type="HSeparator" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+
+[node name="EraContainer" type="HBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+
+[node name="EraLabel" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/EraContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 13
+text = "Era: Rural"
+
+[node name="PopLabel" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Citizens: 0"
+
+[node name="TaxLabel" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.9, 0.7, 1)
+theme_override_font_sizes/font_size = 13
+text = "Tax Rate: $5 / pop / 5s"
+
+[node name="HSeparator2" type="HSeparator" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+
+[node name="TreasuryTitle" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "Vault Reserves:"
+
+[node name="TreasuryGrid" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MoneyVal" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/TreasuryGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.95, 0.4, 1)
+theme_override_font_sizes/font_size = 13
+text = "$500"
+
+[node name="WoodVal" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/TreasuryGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.65, 0.35, 1)
+theme_override_font_sizes/font_size = 13
+text = "0 Wood"
+
+[node name="StoneVal" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/TreasuryGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "0 Stone"
+
+[node name="HSeparator3" type="HSeparator" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+
+[node name="BuildingsTitle" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "Structures Built:"
+
+[node name="BuildingList" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="HouseCount" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/BuildingList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Houses: 0"
+
+[node name="RoadCount" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/BuildingList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Roads: 0"
+
+[node name="WarehouseCount" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/BuildingList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Warehouses: 0"
+
+[node name="ParkCount" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/BuildingList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Parks: 0"
+
+[node name="QuarryCount" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox/BuildingList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Quarries: 0"
+
+[node name="TotalBuildingsLabel" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CityPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "Total Constructed: 0 Structures"
+
+[node name="CurriculumPanel" type="PanelContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CurriculumTitle" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.8, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "CURRICULUM & SKILLS"
+
+[node name="HSeparator1" type="HSeparator" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+
+[node name="Mod1Label" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Module 1 (Sequencing): 0/5"
+
+[node name="Mod1Bar" type="ProgressBar" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+max_value = 5.0
+show_percentage = false
+
+[node name="Mod2Label" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Module 2 (Loops & Logic): 0/5"
+
+[node name="Mod2Bar" type="ProgressBar" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+max_value = 5.0
+show_percentage = false
+
+[node name="Mod3Label" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Module 3 (Functions & Build): 0/5"
+
+[node name="Mod3Bar" type="ProgressBar" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+max_value = 5.0
+show_percentage = false
+
+[node name="HSeparator2" type="HSeparator" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+
+[node name="SkillsRatioLabel" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 13
+text = "Skills Mastered: 0 / 16"
+
+[node name="ScrollSkills" type="ScrollContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SkillsVBox" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/TopRow/CurriculumPanel/VBox/ScrollSkills"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HistoryPanel" type="PanelContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HistoryTitle" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.5, 0.8, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "EXECUTION HISTORY"
+
+[node name="HistorySub" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+text = "Log of completed stages and scripts run"
+
+[node name="HSeparator" type="HSeparator" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel/VBox"]
+layout_mode = 2
+
+[node name="EmptyHistoryLabel" type="Label" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+text = "No recorded runs yet.
+
+Complete tutorial levels or run scripts in Open World to generate your activity log!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollHistory" type="ScrollContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel/VBox"]
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="HistoryVBox" type="VBoxContainer" parent="RootVBox/ScrollArea/ContentVBox/MarginWrap/InnerVBox/HistoryPanel/VBox/ScrollHistory"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8

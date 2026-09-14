@@ -30,7 +30,9 @@ func _add_spacer(slot: VBoxContainer):
 func get_body_blocks() -> Array:
 	return body_slot.get_children().filter(func(c): return c.name != "DropSpacer")
 
-func _gui_input(event):
+func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		remove_requested.emit()
+		if get_global_rect().has_point(get_global_mouse_position()):
+			remove_requested.emit()
+			get_viewport().set_input_as_handled()
 

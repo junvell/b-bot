@@ -44,7 +44,7 @@ func move_bot(direction: Vector2) -> bool:
 	# Before moving, check if a tree is physically blocking the target tile
 	var is_blocked = false
 	for tree in get_tree().get_nodes_in_group("trees"):
-		if tree.global_position.distance_to(target_pos) < 24.0:
+		if tree.global_position.distance_to(target_pos) < 10.0:
 			is_blocked = true
 			break
 			
@@ -133,15 +133,14 @@ func is_at_goal() -> bool:
 func get_object_ahead():
 	# Calculate the tile 1 step in front of the bot
 	var target_pos = global_position + (facing_direction * grid_size)
-	var max_dist = grid_size * 0.75 # Allow misaligned trees to be chopped
 	
 	# Look for trees
 	for tree in get_tree().get_nodes_in_group("trees"):
-		if tree.global_position.distance_to(target_pos) < max_dist:
+		if tree.global_position.distance_to(target_pos) < 10.0:
 			return tree
 	# Look for rocks
 	for rock in get_tree().get_nodes_in_group("rocks"):
-		if rock.global_position.distance_to(target_pos) < max_dist:
+		if rock.global_position.distance_to(target_pos) < 10.0:
 			return rock
 			
 	return null
@@ -272,14 +271,10 @@ func move_to(target_name: String) -> bool:
 	return position.distance_to(target_pos) <= grid_size / 2
 
 func chop():
-	var obj = get_object_ahead() 
+	var obj = get_object_ahead() # Looks 1 tile ahead based on facing_direction
 	if obj and obj.is_in_group("trees"):
-		# Fix Ghost Tree Bug: If the Sprite2D was returned, delete its parent (the root Tree node)
-		if obj is Sprite2D:
-			obj = obj.get_parent()
-			
-		obj.remove_from_group("trees") 
-		obj.queue_free() 
+		obj.remove_from_group("trees") # Immediately untag so pathfinding won't target it
+		obj.queue_free() # Remove the tree scene
 		return true
 	return false
 

@@ -28,19 +28,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -134.0
-offset_top = -10.0
-offset_right = 135.0
-offset_bottom = 10.0
+offset_left = -150.0
+offset_top = -65.0
+offset_right = 150.0
+offset_bottom = 65.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 12
 mouse_filter = 2
 
 [node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=714533073]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "TUTORIAL MODULES"
 
+[node name="HistoryButton" type="Button" parent="VBoxContainer" unique_id=1583362163]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "PROGRESS & HISTORY REPORT"
+
 [node name="OpenWorldButton" type="Button" parent="VBoxContainer" unique_id=1168221358]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "ENTER OPEN WORLD"
 

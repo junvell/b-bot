@@ -2,6 +2,7 @@
 extends Control
 
 @onready var tutorial_btn = $VBoxContainer/TutorialButton # Verify these paths!
+@onready var history_btn = $VBoxContainer/HistoryButton
 @onready var open_world_btn = $VBoxContainer/OpenWorldButton
 @onready var back_btn = $BackButton
 
@@ -10,6 +11,7 @@ func _ready():
 	
 	# Connect signals via code as a backup safety measure
 	tutorial_btn.pressed.connect(_on_tutorial_button_pressed)
+	history_btn.pressed.connect(_on_history_button_pressed)
 	open_world_btn.pressed.connect(_on_open_world_button_pressed)
 	back_btn.pressed.connect(_on_back_button_pressed)
 	
@@ -31,6 +33,10 @@ func _check_locks():
 func _on_tutorial_button_pressed():
 	print("[DEBUG] Tutorial button clicked. Changing scene...")
 	get_tree().change_scene_to_file("res://Scene/ModuleSelect.tscn")
+
+func _on_history_button_pressed():
+	print("[DEBUG] Progress & History Report button clicked. Changing scene...")
+	get_tree().change_scene_to_file("res://Scene/Report/Report.tscn")
 
 func _on_open_world_button_pressed():
 	print("[DEBUG] Open World button clicked. Loading cloud data...")

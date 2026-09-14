@@ -175,7 +175,17 @@ func _setup_saved_city(map_data: Array):
 		var pos = Vector2(building_data["pos_x"], building_data["pos_y"])
 		
 		# Choose the right scene
-		var scene_to_spawn = house_scene if type == "house" else road_scene
+		var scene_to_spawn: PackedScene = null
+		match type:
+			"house": scene_to_spawn = house_scene
+			"road": scene_to_spawn = road_scene
+			"warehouse": scene_to_spawn = warehouse_scene
+			"park": scene_to_spawn = park_scene
+			"quarry": scene_to_spawn = quarry_scene
+		
+		if scene_to_spawn == null:
+			continue
+			
 		var instance = scene_to_spawn.instantiate()
 		
 		# Place it back in the world
@@ -585,6 +595,10 @@ func _reveal_python():
 	
 	win_popup.show()
 	$CanvasLayer/WinPopup/PythonCode.text = python_code
+	
+	# Automatically save winning solution to history
+	var lvl_title = "Module " + str(Global.current_module) + " Level " + str(Global.current_level)
+	Global.add_history_entry(lvl_title, python_code, "Blocks (Cleared)")
 
 # --- 4. INTERPRETER LOGIC ---
 func execute_blocks(block_list):
@@ -803,6 +817,11 @@ func _on_back_button_pressed():
 
 func _on_run_button_pressed():
 	if sequence.get_child_count() == 0: return
+	
+	# If in Open World, log the executed blocks as Python code
+	if Global.is_free_will_mode:
+		var code = generate_python_code(sequence.get_children())
+		Global.add_history_entry("Open World", code, "Blocks")
 	
 	# 1. Update State
 	is_executing = true
@@ -1270,6 +1289,10 @@ func _on_mode_toggle_pressed():
 func _on_run_python_pressed():
 	var pure_code = $CanvasLayer/PythonEditor/VBoxContainer/CodeEdit.text
 	print("[GD] Run Python pressed. Code:\n", pure_code)
+	
+	var mode_title = "Open World" if Global.is_free_will_mode else ("Module " + str(Global.current_module) + " Level " + str(Global.current_level))
+	Global.add_history_entry(mode_title, pure_code, "Python Code")
+	
 	if OS.has_feature("web"):
 		var js_call = "window.runPythonCode(" + JSON.stringify(pure_code) + ");"
 		print("[GD] Calling JS:", js_call)
