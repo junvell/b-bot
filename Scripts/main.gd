@@ -662,18 +662,15 @@ func execute_blocks(block_list):
 			# --- CONSTRUCTION (Requires Skill) ---
 			"build_house":
 				if not needs_check or Global.skill_unlocked.get("build_house", false):
-					if Global.spend_resources(Global.house_build_cost, Global.house_wood_required):
-						_spawn_building("house")
-						Global.population += 5
-						Global.check_for_evolution()
-						Global.update_stats()
+					if not Global.is_free_will_mode or Global.spend_resources(Global.house_build_cost, Global.house_wood_required):
+						await _spawn_building("house")
 				else:
 					_log("ERROR: 'Build House' module missing. Visit Research Lab.")
 
 			"build_road":
 				if not needs_check or Global.skill_unlocked.get("build_road", false):
-					if Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
-						_spawn_building("road")
+					if not Global.is_free_will_mode or Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
+						await _spawn_building("road")
 				else:
 					_log("ERROR: 'Build Road' module missing. Visit Research Lab.")
 
@@ -682,14 +679,11 @@ func execute_blocks(block_list):
 				if not needs_check or Global.skill_unlocked.get("build_house", false):
 					var b_type = block.build_type if "build_type" in block else "house"
 					if b_type == "house":
-						if Global.spend_resources(Global.house_build_cost, Global.house_wood_required):
-							_spawn_building("house")
-							Global.population += 5
-							Global.check_for_evolution()
-							Global.update_stats()
+						if not Global.is_free_will_mode or Global.spend_resources(Global.house_build_cost, Global.house_wood_required):
+							await _spawn_building("house")
 					elif b_type == "road":
-						if Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
-							_spawn_building("road")
+						if not Global.is_free_will_mode or Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
+							await _spawn_building("road")
 				else:
 					_log("ERROR: 'Build' module missing.")
 
@@ -779,21 +773,21 @@ func execute_blocks(block_list):
 			# --- INFRASTRUCTURE BUILDINGS (Require Skills) ---
 			"build_warehouse":
 				if not needs_check or Global.skill_unlocked.get("warehouse", false):
-					if Global.spend_resources(Global.warehouse_build_cost, Global.warehouse_wood_required):
+					if not Global.is_free_will_mode or Global.spend_resources(Global.warehouse_build_cost, Global.warehouse_wood_required):
 						await _spawn_building("warehouse")
 				else:
 					_log("ERROR: Warehouse blueprint not installed.")
 
 			"build_park":
 				if not needs_check or Global.skill_unlocked.get("park", false):
-					if Global.spend_resources(Global.park_build_cost, Global.park_wood_required):
+					if not Global.is_free_will_mode or Global.spend_resources(Global.park_build_cost, Global.park_wood_required):
 						await _spawn_building("park")
 				else:
 					_log("ERROR: City Park blueprint not installed.")
 
 			"build_quarry":
 				if not needs_check or Global.skill_unlocked.get("quarry", false):
-					if Global.spend_resources(Global.quarry_build_cost, Global.quarry_stone_required):
+					if not Global.is_free_will_mode or Global.spend_resources(Global.quarry_build_cost, Global.quarry_stone_required):
 						await _spawn_building("quarry")
 				else:
 					_log("ERROR: Stone Quarry blueprint not installed.")
@@ -1098,15 +1092,16 @@ func _spawn_building(type: String):
 	# Wait one frame so Godot adds the node to its groups
 	await get_tree().process_frame
 	
-	if type == "house":
-		Global.population += 5
-		Global.check_for_evolution()
+	if Global.is_free_will_mode:
+		if type == "house":
+			Global.population += 5
+			Global.check_for_evolution()
+		
+		# Update city map (only serialises houses and roads; others are ignored by get_city_map_as_json)
+		Global.saved_city_map = Global.get_city_map_as_json()
+		Global.save_game_to_cloud()
 	
-	# Update city map (only serialises houses and roads; others are ignored by get_city_map_as_json)
-	Global.saved_city_map = Global.get_city_map_as_json()
 	Global.update_stats()
-	Global.save_game_to_cloud()
-	
 	print("[SYSTEM] Built '", type, "' at ", bot.position)
 
 

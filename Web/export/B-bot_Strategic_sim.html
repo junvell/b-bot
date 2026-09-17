@@ -2,16 +2,40 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>B-Bot: Python Automation</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <title>B-bot_Strategic_sim</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0e0f19;
+        }
+        #canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #canvas:focus {
+            outline: none;
+        }
+    </style>
     <!-- LOAD SKULPT ENGINE -->
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+    <link id="-gd-engine-icon" rel="icon" type="image/png" href="B-bot_Strategic_sim.icon.png" />
+<link rel="apple-touch-icon" href="B-bot_Strategic_sim.apple-touch-icon.png"/>
+
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <script src="B-bot_Strategic_sim.js"></script>
-<script>
-        var engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"B-bot_Strategic_sim","experimentalVK":false,"fileSizes":{"B-bot_Strategic_sim.pck":527548,"B-bot_Strategic_sim.wasm":35754592},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});
+    <script>
+        const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"B-bot_Strategic_sim","experimentalVK":false,"fileSizes":{"B-bot_Strategic_sim.pck":5593288,"B-bot_Strategic_sim.wasm":35754592},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+        var engine = new Engine(GODOT_CONFIG);
         engine.startGame();
 
         window.runPythonCode = function(code) {

@@ -37,9 +37,9 @@ var is_free_will_mode: bool = false
 
 # --- SKILL TREE (Expanded) ---
 var skill_unlocked = {
-	"chop": false,
-	"collect": false,
-	"deposit": false,
+	"chop": true,
+	"collect": true,
+	"deposit": true,
 	# Branch 1: Logic
 	"while_loop": false,
 	"if_else": false,
@@ -116,6 +116,37 @@ var quarry_build_cost: int = 400
 var quarry_stone_required: int = 0
 var park_tax_bonus: int = 3   # Per park, added to tax_per_person
 var maintenance_tick: float = 5.0
+
+# --- ADMIN / RESEARCHER PORTAL ---
+const ADMIN_EMAILS: Array = ["junvelldjhonga@gmail.com"]
+var is_inspecting: bool = false
+var inspecting_student_data: Dictionary = {}
+var inspecting_student_history: Array = []
+
+func is_admin() -> bool:
+	var user = Supabase.auth.client
+	if user == null:
+		return false
+	return user.email.to_lower() in ADMIN_EMAILS
+
+func fetch_all_students_from_cloud() -> Array:
+	var query = SupabaseQuery.new().from("profiles").select()
+	var task = Supabase.database.query(query)
+	var result = await task.completed
+	if result.error == null and result.data is Array:
+		return result.data
+	print("[ADMIN] Failed to fetch student list: ", result.error)
+	return []
+
+func fetch_student_history(student_id: String) -> Array:
+	var query = SupabaseQuery.new().from("history").select().eq("user_id", student_id)
+	var task = Supabase.database.query(query)
+	var result = await task.completed
+	if result.error == null and result.data is Array:
+		return result.data
+	print("[ADMIN] Failed to fetch history for student: ", student_id)
+	return []
+
 
 func _ready():
 	# 1. Set the configuration variables directly
@@ -256,7 +287,14 @@ func load_game_from_cloud():
 		module3_progress = int(profile.get("module3_progress", 1))
 		
 		if profile.has("skill_data"):
-			skill_unlocked = profile.skill_data
+			# Merge the saved skills with our defaults
+			for key in profile.skill_data.keys():
+				skill_unlocked[key] = profile.skill_data[key]
+			
+			# Force essential core skills to always be unlocked for older saves
+			skill_unlocked["chop"] = true
+			skill_unlocked["collect"] = true
+			skill_unlocked["deposit"] = true
 			
 		if profile.has("city_map"):
 			saved_city_map = profile.city_map
@@ -269,6 +307,10 @@ func load_game_from_cloud():
 	else:
 		is_data_ready = true 
 		print("[LOAD] No profile found or server error. Ready for new user.")
+		if result.error != null:
+			printerr("[LOAD CLOUD ERROR]: ", result.error)
+		else:
+			print("[LOAD CLOUD INFO]: Result data: ", result.data)
 
 func get_city_summary() -> Dictionary:
 	var summary = {

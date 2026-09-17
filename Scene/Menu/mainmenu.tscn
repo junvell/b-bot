@@ -449,6 +449,16 @@ theme_override_styles/hover = ExtResource("2_2f35e")
 text = "Setting
 "
 
+[node name="AdminButton" type="Button" parent="Main/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_baylo")
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_jfvi1")
+theme_override_styles/hover = ExtResource("2_2f35e")
+text = "Admin Portal"
+visible = false
+
 [node name="LogoutButton" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 1

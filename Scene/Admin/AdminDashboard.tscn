@@ -1,0 +1,287 @@
+[gd_scene format=3 uid="uid://admin_dashboard_scene"]
+
+[ext_resource type="Script" path="res://Scene/Admin/AdminDashboard.gd" id="1_admin"]
+[ext_resource type="FontFile" uid="uid://fps12x5mfajs" path="res://Sprites/Font/Orbitron-VariableFont_wght.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0862745, 0.0901961, 0.156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.09, 0.09, 0.18, 1)
+border_width_bottom = 2
+border_color = Color(0.38, 0.24, 0.73, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_analytics"]
+bg_color = Color(0.10, 0.11, 0.20, 0.95)
+border_width_bottom = 1
+border_color = Color(0.22, 0.21, 0.38, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.121569, 0.129412, 0.223529, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.24, 0.73, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.380392, 0.243137, 0.72549, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_export"]
+bg_color = Color(0.18, 0.6, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_search"]
+bg_color = Color(0.12, 0.13, 0.22, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.26, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+[node name="AdminDashboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_admin")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="RootVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderBg" type="Panel" parent="RootVBox"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="MarginContainer" type="MarginContainer" parent="RootVBox/HeaderBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="HeaderBar" type="HBoxContainer" parent="RootVBox/HeaderBg/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="BackButton" type="Button" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "< BACK"
+
+[node name="TitleLabel" type="Label" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 17
+text = "ADMIN & RESEARCHER PORTAL"
+vertical_alignment = 1
+
+[node name="AdminLabel" type="Label" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.55, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 11
+text = "Loading..."
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="ExportButton" type="Button" parent="RootVBox/HeaderBg/MarginContainer/HeaderBar"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_export")
+text = "EXPORT CSV"
+
+[node name="AnalyticsBar" type="Panel" parent="RootVBox"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_analytics")
+
+[node name="MarginWrap" type="MarginContainer" parent="RootVBox/AnalyticsBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="RootVBox/AnalyticsBar/MarginWrap"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TotalStudentsCard" type="PanelContainer" parent="RootVBox/AnalyticsBar/MarginWrap/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/TotalStudentsCard"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleLbl" type="Label" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/TotalStudentsCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+text = "TOTAL STUDENTS"
+
+[node name="ValueLabel" type="Label" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/TotalStudentsCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "—"
+
+[node name="AvgCompletionCard" type="PanelContainer" parent="RootVBox/AnalyticsBar/MarginWrap/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/AvgCompletionCard"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleLbl" type="Label" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/AvgCompletionCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+text = "AVG CURRICULUM COMPLETION"
+
+[node name="ValueLabel" type="Label" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/AvgCompletionCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "—"
+
+[node name="TotalRunsCard" type="PanelContainer" parent="RootVBox/AnalyticsBar/MarginWrap/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/TotalRunsCard"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleLbl" type="Label" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/TotalRunsCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+text = "TOTAL CODE RUNS (SYSTEM)"
+
+[node name="ValueLabel" type="Label" parent="RootVBox/AnalyticsBar/MarginWrap/HBox/TotalRunsCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 1.0, 0.6, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "—"
+
+[node name="SearchBar" type="Panel" parent="RootVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_analytics")
+
+[node name="MarginWrap" type="MarginContainer" parent="RootVBox/SearchBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="SearchInput" type="LineEdit" parent="RootVBox/SearchBar/MarginWrap"]
+layout_mode = 2
+placeholder_text = "🔍  Search by student email..."
+theme_override_styles/normal = SubResource("StyleBoxFlat_search")
+theme_override_font_sizes/font_size = 13
+
+[node name="ScrollArea" type="ScrollContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="StudentVBox" type="VBoxContainer" parent="RootVBox/ScrollArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MarginPad" type="MarginContainer" parent="RootVBox/ScrollArea/StudentVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 14
+
+[node name="LoadingLabel" type="Label" parent="RootVBox/ScrollArea/StudentVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Loading student data..."
+horizontal_alignment = 1
+

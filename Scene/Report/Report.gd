@@ -36,15 +36,36 @@ extends Control
 
 func _ready():
 	back_button.pressed.connect(_on_back_pressed)
-	if not Global.is_data_ready:
+	if not Global.is_data_ready and not Global.is_inspecting:
 		await Global.load_game_from_cloud()
 	_load_report_data()
 
 func _on_back_pressed():
-	get_tree().change_scene_to_file("res://Scene/modeselection/modeselection.tscn")
+	if Global.is_inspecting:
+		# Return to Admin Dashboard and clear inspection state
+		Global.is_inspecting = false
+		Global.inspecting_student_data.clear()
+		Global.inspecting_student_history.clear()
+		get_tree().change_scene_to_file("res://Scene/Admin/AdminDashboard.tscn")
+	else:
+		get_tree().change_scene_to_file("res://Scene/modeselection/modeselection.tscn")
 
 func _load_report_data():
 	# 1. User Header
+	if Global.is_inspecting:
+		# --- ADMIN INSPECTION MODE ---
+		var profile = Global.inspecting_student_data
+		var email = str(profile.get("email", profile.get("id", "Unknown Student")))
+		user_label.text = "Inspecting: " + email
+		user_label.modulate = Color(1.0, 0.85, 0.25, 1)
+
+		# Override local values with the inspected student's data
+		_load_report_from_dict(profile)
+		_populate_skills_from_dict(profile.get("skill_data", {}))
+		_populate_history_from_array(Global.inspecting_student_history)
+		return
+
+	# --- NORMAL PLAYER MODE ---
 	var user_email = "Guest Architect"
 	if Supabase and Supabase.auth and Supabase.auth.client:
 		var u = Supabase.auth.client
@@ -109,12 +130,64 @@ func _load_report_data():
 	_populate_history_log()
 
 func _populate_skills_list():
+	_populate_skills_from_dict(Global.skill_unlocked)
+
+func _load_report_from_dict(profile: Dictionary):
+	# City stats from raw Supabase profile data
+	var era = str(profile.get("current_era", "Rural"))
+	era_label.text = "Era: " + era
+	match era:
+		"Rural":    era_label.modulate = Color(0.4, 0.9, 0.4)
+		"Suburban": era_label.modulate = Color(0.9, 0.8, 0.2)
+		"Urban":    era_label.modulate = Color(0.2, 0.8, 1.0)
+
+	pop_label.text = "Citizens: " + str(profile.get("population", 0))
+	tax_label.text = "Tax Rate: $5 / pop / 5s"
+
+	money_val.text = "$" + str(profile.get("money", 0))
+	wood_val.text = str(profile.get("wood", 0)) + " Wood"
+	stone_val.text = str(profile.get("stone", 0)) + " Stone"
+
+	# Count buildings from city_map
+	var city_map = profile.get("city_map", [])
+	var counts = {"house": 0, "road": 0, "warehouse": 0, "park": 0, "quarry": 0, "total": 0}
+	if city_map is Array:
+		for item in city_map:
+			if item is Dictionary and item.has("type"):
+				var t = item["type"]
+				if counts.has(t):
+					counts[t] += 1
+				counts["total"] += 1
+
+	house_count_lbl.text = "Houses: " + str(counts["house"])
+	road_count_lbl.text = "Roads: " + str(counts["road"])
+	warehouse_count_lbl.text = "Warehouses: " + str(counts["warehouse"])
+	park_count_lbl.text = "Parks: " + str(counts["park"])
+	quarry_count_lbl.text = "Quarries: " + str(counts["quarry"])
+	total_buildings_lbl.text = "Total Constructed: " + str(counts["total"]) + " Structures"
+
+	# Module progress
+	var m1 = clamp(int(profile.get("module1_progress", 1)) - 1, 0, 5)
+	var m2 = clamp(int(profile.get("module2_progress", 1)) - 1, 0, 5)
+	var m3 = clamp(int(profile.get("module3_progress", 1)) - 1, 0, 5)
+	mod1_bar.max_value = 5; mod1_bar.value = m1
+	mod1_lbl.text = "Module 1 (Sequencing): " + str(m1) + "/5"
+	mod2_bar.max_value = 5; mod2_bar.value = m2
+	mod2_lbl.text = "Module 2 (Loops & Logic): " + str(m2) + "/5"
+	mod3_bar.max_value = 5; mod3_bar.value = m3
+	mod3_lbl.text = "Module 3 (Functions & Build): " + str(m3) + "/5"
+
+func _populate_skills_from_dict(skill_data):
 	for child in skills_container.get_children():
 		child.queue_free()
 
 	var unlocked_count = 0
-	var total_skills = Global.skill_unlocked.size()
-	
+	var skill_dict: Dictionary = {}
+	if skill_data is Dictionary:
+		skill_dict = skill_data
+	else:
+		skill_dict = Global.skill_unlocked
+
 	var display_names = {
 		"chop": "Chop Trees",
 		"collect": "Collect Resources",
@@ -134,40 +207,42 @@ func _populate_skills_list():
 		"quarry": "Stone Quarry"
 	}
 
-	for skill_id in Global.skill_unlocked.keys():
-		var is_unlocked = Global.skill_unlocked.get(skill_id, false)
+	for skill_id in skill_dict.keys():
+		var is_unlocked = skill_dict.get(skill_id, false)
 		if is_unlocked:
 			unlocked_count += 1
-		
+
 		var row = HBoxContainer.new()
 		var check_lbl = Label.new()
 		check_lbl.text = "✓ " if is_unlocked else "✗ "
 		check_lbl.modulate = Color(0.3, 0.9, 0.4) if is_unlocked else Color(0.6, 0.6, 0.6, 0.5)
-		
+
 		var name_lbl = Label.new()
 		var nice_name = display_names.get(skill_id, skill_id.capitalize())
 		name_lbl.text = nice_name
 		name_lbl.modulate = Color(1, 1, 1) if is_unlocked else Color(0.6, 0.6, 0.6, 0.6)
-		
+
 		row.add_child(check_lbl)
 		row.add_child(name_lbl)
 		skills_container.add_child(row)
-		
-	skills_ratio_lbl.text = "Skills Mastered: " + str(unlocked_count) + " / " + str(total_skills)
+
+	skills_ratio_lbl.text = "Skills Mastered: " + str(unlocked_count) + " / " + str(skill_dict.size())
 
 func _populate_history_log():
+	_populate_history_from_array(Global.get_history_entries())
+
+func _populate_history_from_array(history_items: Array):
 	for child in history_container.get_children():
 		child.queue_free()
 
-	var history_items = Global.get_history_entries()
 	if history_items.is_empty():
 		empty_history_lbl.visible = true
 		scroll_history.visible = false
 		return
-		
+
 	empty_history_lbl.visible = false
 	scroll_history.visible = true
-	
+
 	for entry in history_items:
 		var card = PanelContainer.new()
 		var card_style = StyleBoxFlat.new()
