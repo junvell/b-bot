@@ -161,23 +161,34 @@ func collect() -> bool:
 	var obj = get_nearby_object()
 	if obj == null:
 		return false
-	var type = ""
-	var amount = 0
-	if obj.is_in_group("trees"):
-		type = "wood"
-		amount = 10
-	elif obj.is_in_group("rocks"):
-		type = "stone"
-		amount = 10
+	
+	if Global.is_free_will_mode:
+		# --- OPEN WORLD: Collect stone from rocks only ---
+		# (Trees are harvested with Chop, which gives wood)
+		if obj.is_in_group("rocks"):
+			if not Global.can_carry("stone", 10):
+				return false
+			obj.queue_free()
+			Global.add_to_inventory("stone", 10)
+			return true
+		return false
 	else:
-		return false
-	
-	if not Global.can_carry(type, amount):
-		return false
-	
-	obj.queue_free()
-	Global.add_to_inventory(type, amount)
-	return true
+		# --- TUTORIAL MODE: Collect wood from trees (Module 2) ---
+		var type = ""
+		var amount = 0
+		if obj.is_in_group("trees"):
+			type = "wood"
+			amount = 10
+		elif obj.is_in_group("rocks"):
+			type = "stone"
+			amount = 10
+		else:
+			return false
+		if not Global.can_carry(type, amount):
+			return false
+		obj.queue_free()
+		Global.add_to_inventory(type, amount)
+		return true
 
 func deposit() -> bool:
 	var areas = $Area2D.get_overlapping_areas()
@@ -271,11 +282,21 @@ func move_to(target_name: String) -> bool:
 	return position.distance_to(target_pos) <= grid_size / 2
 
 func chop():
-	var obj = get_object_ahead() # Looks 1 tile ahead based on facing_direction
-	if obj and obj.is_in_group("trees"):
-		obj.remove_from_group("trees") # Immediately untag so pathfinding won't target it
-		obj.queue_free() # Remove the tree scene
-		return true
+	# Check all 4 adjacent tiles for trees
+	var bot_cell = Vector2i(round(global_position.x / float(grid_size)), round(global_position.y / float(grid_size)))
+	var directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+	
+	for dir in directions:
+		var check_cell = bot_cell + dir
+		for tree in get_tree().get_nodes_in_group("trees"):
+			var tree_cell = Vector2i(round(tree.global_position.x / float(grid_size)), round(tree.global_position.y / float(grid_size)))
+			if tree_cell == check_cell:
+				if tree.has_method("chop"):
+					tree.chop()
+				else:
+					tree.remove_from_group("trees") # Fallback
+					tree.queue_free()
+				return true
 	return false
 
 func is_path_ahead(direction: Vector2 = Vector2.RIGHT) -> bool:

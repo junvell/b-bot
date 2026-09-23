@@ -232,15 +232,15 @@ skill_id = "build_house"
 skill_name = "House Blueprint"
 skill_desc = "Construct houses to grow your population."
 
-[node name="SkillNode_build_road" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=362768602 instance=ExtResource("2_sknd")]
+[node name="SkillNode_plant_tree" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=362768602 instance=ExtResource("2_sknd")]
 layout_mode = 0
 offset_left = 650.0
 offset_top = 160.0
 offset_right = 820.0
 offset_bottom = 240.0
-skill_id = "build_road"
-skill_name = "Paved Roads"
-skill_desc = "Lay roads to connect your city blocks."
+skill_id = "plant_tree"
+skill_name = "Plant Tree"
+skill_desc = "Plant trees to generate future wood."
 
 [node name="SkillNode_warehouse" parent="Panel/VBoxOuter/ScrollContainer/Canvas" unique_id=1839274824 instance=ExtResource("2_sknd")]
 layout_mode = 0

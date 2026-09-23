@@ -114,6 +114,7 @@ func _create_student_card(profile: Dictionary):
 		"Rural":   era_lbl.modulate = Color(0.4, 0.9, 0.4)
 		"Suburban": era_lbl.modulate = Color(0.9, 0.8, 0.2)
 		"Urban":    era_lbl.modulate = Color(0.2, 0.8, 1.0)
+		"Metropolis": era_lbl.modulate = Color(0.8, 0.2, 1.0)
 	era_lbl.add_theme_font_size_override("font_size", 12)
 	info_vbox.add_child(era_lbl)
 

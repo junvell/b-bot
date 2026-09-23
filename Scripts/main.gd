@@ -18,12 +18,13 @@ var is_executing: bool = false # Add this near your other variables
 var active_slot: VBoxContainer
 var python_cmd_queue: Array = []
 var is_processing_python_queue: bool = false
+var call_depth: int = 0 # Recursion guard for call_func
 
 # Resource Labels
-@onready var money_label = $CanvasLayer/HUD/MainHBox/HBoxContainer2/MoneyLabel
+@onready var money_label = $CanvasLayer/HUD/MainHBox/HBoxContainer3/MoneyLabel
 @onready var wood_label = $CanvasLayer/HUD/MainHBox/HBoxContainer/WoodLabel
-@onready var stone_label = $CanvasLayer/HUD/MainHBox/HBoxContainer4/StoneLabel
-@onready var pop_label = $CanvasLayer/HUD/MainHBox/HBoxContainer3/PopLabel
+@onready var stone_label = $CanvasLayer/HUD/MainHBox/HBoxContainer2/StoneLabel
+@onready var pop_label = $CanvasLayer/HUD/MainHBox/HBoxContainer4/PopLabel
 @onready var inventory_label = $CanvasLayer/HUD/MainHBox/HBoxContainer5/InventoryLabel
 
 # Win condition for current level
@@ -176,9 +177,12 @@ func _setup_saved_city(map_data: Array):
 		
 		# Choose the right scene
 		var scene_to_spawn: PackedScene = null
+		var is_tree = false
 		match type:
 			"house": scene_to_spawn = house_scene
-			"road": scene_to_spawn = road_scene
+			"planted_tree": 
+				scene_to_spawn = preload("res://Scene/tree.tscn")
+				is_tree = true
 			"warehouse": scene_to_spawn = warehouse_scene
 			"park": scene_to_spawn = park_scene
 			"quarry": scene_to_spawn = quarry_scene
@@ -190,6 +194,8 @@ func _setup_saved_city(map_data: Array):
 		
 		# Place it back in the world
 		instance.position = pos
+		if is_tree and "is_planted" in instance:
+			instance.is_planted = true
 		city_grid.add_child(instance)
 		
 		# 4. CRITICAL: Add the population value back for every house found
@@ -310,16 +316,18 @@ func load_mission(module_id, lvl_id):
 					container.add_child(world)
 					bot = world.get_node("BBot")
 					
-					# 3. UI Setup
+					# 3. Restore saved city
+					if Global.saved_city_map.size() > 0:
+						_setup_saved_city(Global.saved_city_map)
+					
+					# 4. UI Setup
 					$CanvasLayer/MissionPanel.hide()
+					$CanvasLayer/Terminal.show()
 					editor_button.show()
 					research_button.show()
+					back_button.show()
 					
-					# --- THE FIX: Ensure the Back Button is visible ---
-					back_button.show() 
-					# --------------------------------------------------
-					
-					_setup_palette_for_level(3, 6) 
+					_setup_palette_for_level(3, 6)
 					_log("Open World Initiated. Welcome, Mayor.")
 		
 		2:
@@ -379,10 +387,31 @@ func load_mission(module_id, lvl_id):
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Collect wood, go to the Warehouse, and deposit it."
 					_add_tutorial_overlay(map, "The Warehouse", "Stand on the Warehouse tile and use Deposit to store your wood.")
 				
-				6:
+				6: # THE OPEN WORLD TRIGGER
 					Global.is_free_will_mode = true
-					editor_button.show()
+					
+					# 1. Clear everything
+					for child in container.get_children(): child.queue_free()
+					for child in city_grid.get_children(): child.queue_free()
+					
+					# 2. Load the Open World Map
+					var world = preload("res://Scene/Openworld/OpenWorld.tscn").instantiate()
+					container.add_child(world)
+					bot = world.get_node("BBot")
+					
+					# 3. Restore saved city
+					if Global.saved_city_map.size() > 0:
+						_setup_saved_city(Global.saved_city_map)
+					
+					# 4. UI Setup
 					$CanvasLayer/MissionPanel.hide()
+					$CanvasLayer/Terminal.show()
+					editor_button.show()
+					research_button.show()
+					back_button.show()
+					
+					_setup_palette_for_level(3, 6)
+					_log("Open World Initiated. Welcome, Mayor.")
 		
 		3:
 			match lvl_id:
@@ -408,9 +437,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 3
 					Global.money = 300
 					Global.wood = 10
-					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 2: Infrastructure"
-					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Build a row of 3 roads."
-					_add_tutorial_overlay(map, "Infrastructure", "Use the Build Road block on empty tiles to create roads.")
+					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 2: Green Thumb"
+					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Plant a row of 3 trees."
+					_add_tutorial_overlay(map, "Green Thumb", "Use the Plant Tree block on empty tiles to grow trees.")
 				
 				3:
 					var map = level_3_3_scene.instantiate()
@@ -447,9 +476,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 6
 					Global.money = 500
 					Global.wood = 30
-					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 5: Mini-Suburb"
-					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Build 3 houses and 3 roads."
-					_add_tutorial_overlay(map, "Mini-Suburb", "Plan your city! Build houses and roads efficiently.")
+					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 5: Green Suburb"
+					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Build 3 houses and plant 3 trees."
+					_add_tutorial_overlay(map, "Green Suburb", "Combine houses and trees to build a sustainable city!")
 				
 				6: # THE OPEN WORLD TRIGGER
 					Global.is_free_will_mode = true
@@ -506,7 +535,7 @@ func _setup_palette_for_level(module_id, lvl_id):
 			"Scan":           "scan",
 			"Deposit":        "deposit",
 			"BuildHouse":     "build_house",
-			"BuildRoad":      "build_road",
+			"PlantTree":      "plant_tree",
 			"Chop":           "chop",
 			"WhileLoop":      "while_loop",
 			"IfElse":         "if_else",
@@ -577,7 +606,7 @@ func _setup_palette_for_level(module_id, lvl_id):
 			if palette.has_node("Deposit"):
 				palette.get_node("Deposit").visible = true
 				
-			if lvl_id >= 2: palette.get_node("BuildRoad").visible = true
+			if lvl_id >= 2: palette.get_node("PlantTree").visible = true
 			if lvl_id >= 3: palette.get_node("IfElse").visible = true
 			if lvl_id >= 4: palette.get_node("Chop").visible = true
 			if lvl_id >= 5: palette.get_node("WhileLoop").visible = true
@@ -632,24 +661,22 @@ func execute_blocks(block_list):
 
 			"chop":
 				if not needs_check or Global.skill_unlocked.get("chop", false):
-					var obj = bot.get_object_ahead()
-					if obj and obj.is_in_group("trees"):
-						if Global.is_free_will_mode and not Global.can_carry("wood", 10):
-							_log("ERROR: Bag full! Deposit wood at the Warehouse.")
-						else:
-							if bot.chop():
-								# --- TUTORIAL LEVEL 3-4 SPECIAL CASE ---
-								if Global.current_module == 3 and Global.current_level == 4:
-									Global.add_money(100)
-									_spawn_floating_text("+$100")
-									_log("Money received from clearing land!")
-								
-								# --- NORMAL WOOD COLLECTION ---
-								if Global.add_to_inventory("wood", 10):
-									_spawn_floating_text("+10 Wood")
-								
-								Global.update_stats()
-								_update_hud()
+					if Global.is_free_will_mode and not Global.can_carry("wood", 10):
+						_log("ERROR: Bag full! Deposit wood at the Warehouse.")
+					else:
+						if bot.chop():
+							# --- TUTORIAL LEVEL 3-4 SPECIAL CASE ---
+							if Global.current_module == 3 and Global.current_level == 4:
+								Global.add_money(100)
+								_spawn_floating_text("+$100")
+								_log("Money received from clearing land!")
+							
+							# --- NORMAL WOOD COLLECTION ---
+							if Global.add_to_inventory("wood", 10):
+								_spawn_floating_text("+10 Wood")
+							
+							Global.update_stats()
+							_update_hud()
 				else:
 					_log("ERROR: 'Chop' module not installed.")
 
@@ -667,12 +694,12 @@ func execute_blocks(block_list):
 				else:
 					_log("ERROR: 'Build House' module missing. Visit Research Lab.")
 
-			"build_road":
-				if not needs_check or Global.skill_unlocked.get("build_road", false):
-					if not Global.is_free_will_mode or Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
-						await _spawn_building("road")
+			"plant_tree":
+				if not needs_check or Global.skill_unlocked.get("plant_tree", false):
+					if not Global.is_free_will_mode or Global.spend_resources(Global.plant_tree_cost, Global.plant_tree_wood_required):
+						await _spawn_building("planted_tree")
 				else:
-					_log("ERROR: 'Build Road' module missing. Visit Research Lab.")
+					_log("ERROR: 'Plant Tree' module missing. Visit Research Lab.")
 
 			# Legacy "build" fallback — used by tutorial levels (Module 3 Levels 1-5)
 			"build":
@@ -681,9 +708,9 @@ func execute_blocks(block_list):
 					if b_type == "house":
 						if not Global.is_free_will_mode or Global.spend_resources(Global.house_build_cost, Global.house_wood_required):
 							await _spawn_building("house")
-					elif b_type == "road":
-						if not Global.is_free_will_mode or Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
-							await _spawn_building("road")
+					elif b_type == "planted_tree":
+						if not Global.is_free_will_mode or Global.spend_resources(Global.plant_tree_cost, Global.plant_tree_wood_required):
+							await _spawn_building("planted_tree")
 				else:
 					_log("ERROR: 'Build' module missing.")
 
@@ -764,7 +791,12 @@ func execute_blocks(block_list):
 				if not needs_check or Global.skill_unlocked.get("functions", false):
 					var fname = block.func_name if "func_name" in block else ""
 					if func_registry.has(fname):
-						await execute_blocks(func_registry[fname])
+						if call_depth >= 10:
+							_log("ERROR: Max recursion depth reached. Function '" + fname + "' called itself too many times.")
+						else:
+							call_depth += 1
+							await execute_blocks(func_registry[fname])
+							call_depth -= 1
 					else:
 						_log("ERROR: Function '" + str(fname) + "' not defined. Use Define Function first.")
 				else:
@@ -819,6 +851,8 @@ func _on_run_button_pressed():
 	
 	# 1. Update State
 	is_executing = true
+	call_depth = 0       # Reset recursion counter
+	func_registry = {}   # Clear user functions so definitions are re-read each run
 	run_button.visible = false # Hide Run button
 	stop_button.visible = true  # Show Stop button
 	
@@ -874,7 +908,7 @@ func _check_win_condition() -> bool:
 		"build_count":
 			var built_count = 0
 			for child in city_grid.get_children():
-				if child.is_in_group("houses") or child.is_in_group("roads"):
+				if child.is_in_group("houses") or child.is_in_group("planted_trees"):
 					built_count += 1
 			return built_count >= current_win_target
 	return false
@@ -887,7 +921,7 @@ func _check_win_mid_execution() -> bool:
 	if current_win_type == "build_count":
 		var built_count = 0
 		for child in city_grid.get_children():
-			if child.is_in_group("houses") or child.is_in_group("roads"):
+			if child.is_in_group("houses") or child.is_in_group("planted_trees"):
 				built_count += 1
 		return built_count >= current_win_target
 	return false
@@ -899,7 +933,7 @@ func _evaluate_while_condition(block) -> bool:
 	if current_win_type == "build_count":
 		var built_count = 0
 		for child in city_grid.get_children():
-			if child.is_in_group("houses") or child.is_in_group("roads"):
+			if child.is_in_group("houses") or child.is_in_group("planted_trees"):
 				built_count += 1
 		return built_count < current_win_target
 	return not bot.is_at_goal()
@@ -1001,7 +1035,7 @@ func _create_block(command_id: String, build_type: String = ""):
 				"deposit":       target_color = Color("#f44336") # Red
 				"build":         target_color = Color("#ff9800") # Orange
 				"build_house":   target_color = Color("#ff9800") # Orange
-				"build_road":    target_color = Color("#e67e00") # Darker orange
+				"plant_tree":    target_color = Color("#e67e00") # Darker orange
 				"build_warehouse": target_color = Color("#8d6e63") # Brown
 				"build_park":    target_color = Color("#66bb6a") # Green
 				"build_quarry":  target_color = Color("#78909c") # Blue-gray
@@ -1075,7 +1109,7 @@ func _spawn_building(type: String):
 	var scene: PackedScene
 	match type:
 		"house":      scene = house_scene
-		"road":       scene = road_scene
+		"planted_tree": scene = preload("res://Scene/tree.tscn")
 		"warehouse":  scene = warehouse_scene
 		"park":       scene = park_scene
 		"quarry":     scene = quarry_scene
@@ -1084,6 +1118,9 @@ func _spawn_building(type: String):
 			return
 	
 	var new_building = scene.instantiate()
+	
+	if type == "planted_tree" and "is_planted" in new_building:
+		new_building.is_planted = true
 	
 	# Set position and add to the grid
 	new_building.position = bot.position
@@ -1195,8 +1232,8 @@ func generate_python_code(block_list, indent_level = 0) -> String:
 				python_code += tabs + "b_bot.build('" + bt + "')\n"
 			"build_house":
 				python_code += tabs + "b_bot.build_house()\n"
-			"build_road":
-				python_code += tabs + "b_bot.build_road()\n"
+			"plant_tree":
+				python_code += tabs + "b_bot.plant_tree()\n"
 
 			"chop":
 				python_code += tabs + "b_bot.chop()\n"
@@ -1341,26 +1378,24 @@ func _execute_python_command(command: String, argument: String):
 #bypassing the chop in the moudle 3 tutorial stage
 		"chop":
 			if not needs_skill_check or Global.skill_unlocked.get("chop", false):
-				var obj = bot.get_object_ahead()
-				if obj and obj.is_in_group("trees"):
-					if Global.is_free_will_mode and not Global.can_carry("wood", 10):
-						_log("ERROR: Bag full! Deposit wood at the Warehouse.")
-					else:
-						if bot.chop():
-							# --- STRATEGIC BRANCHING ---
-							if Global.is_free_will_mode:
-								if Global.add_to_inventory("wood", 10):
-									_spawn_floating_text("+10 Wood")
+				if Global.is_free_will_mode and not Global.can_carry("wood", 10):
+					_log("ERROR: Bag full! Deposit wood at the Warehouse.")
+				else:
+					if bot.chop():
+						# --- STRATEGIC BRANCHING ---
+						if Global.is_free_will_mode:
+							if Global.add_to_inventory("wood", 10):
+								_spawn_floating_text("+10 Wood")
+						else:
+							if Global.current_module == 3:
+								Global.add_money(100)
+								Global.add_to_inventory("wood", 10)
+								_spawn_floating_text("+$100 & Wood")
 							else:
-								if Global.current_module == 3:
-									Global.add_money(100)
-									Global.add_to_inventory("wood", 10)
-									_spawn_floating_text("+$100 & Wood")
-								else:
-									Global.add_to_inventory("wood", 10)
-									_spawn_floating_text("+10 Wood")
-							
-							_update_hud()
+								Global.add_to_inventory("wood", 10)
+								_spawn_floating_text("+10 Wood")
+						
+						_update_hud()
 			else:
 				_log("ERROR: 'Chop' module not installed.")
 
@@ -1376,19 +1411,19 @@ func _execute_python_command(command: String, argument: String):
 			else:
 				_log("ERROR: 'Build House' module not installed. Visit Research Lab.")
 
-		"build_road":
-			if not needs_skill_check or Global.skill_unlocked.get("build_road", false):
-				if Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
+		"plant_tree":
+			if not needs_skill_check or Global.skill_unlocked.get("plant_tree", false):
+				if Global.spend_resources(Global.plant_tree_cost, Global.plant_tree_wood_required):
 					if bot.get_object_under_bot() == null:
-						_spawn_building("road")
+						_spawn_building("planted_tree")
 						Global.update_stats()
 			else:
-				_log("ERROR: 'Build Road' module not installed. Visit Research Lab.")
+				_log("ERROR: 'Plant Tree' module not installed. Visit Research Lab.")
 
 		# Legacy "build" fallback — used by older Python scripts / tutorial code
 		"build":
 			var final_type = argument if argument != "" else "house"
-			var required_skill = "build_house" if final_type == "house" else "build_road"
+			var required_skill = "build_house" if final_type == "house" else "plant_tree"
 			if not needs_skill_check or Global.skill_unlocked.get(required_skill, false):
 				if final_type == "house":
 					if Global.spend_resources(Global.house_build_cost, Global.house_wood_required):
@@ -1397,10 +1432,10 @@ func _execute_python_command(command: String, argument: String):
 							Global.population += 5
 							Global.check_for_evolution()
 							Global.update_stats()
-				elif final_type == "road":
-					if Global.spend_resources(Global.road_build_cost, Global.road_wood_required):
+				elif final_type == "planted_tree":
+					if Global.spend_resources(Global.plant_tree_cost, Global.plant_tree_wood_required):
 						if bot.get_object_under_bot() == null:
-							_spawn_building("road")
+							_spawn_building("planted_tree")
 							Global.update_stats()
 			else:
 				_log("ERROR: 'Build' module not installed. Visit Research Lab.")

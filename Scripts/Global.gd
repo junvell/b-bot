@@ -52,7 +52,7 @@ var skill_unlocked = {
 	"pathfinding": false,
 	# Branch 3: Infrastructure
 	"build_house": true,
-	"build_road": false,
+	"plant_tree": false,
 	"warehouse": false,
 	"park": false,
 	"quarry": false
@@ -74,7 +74,7 @@ var skill_costs = {
 	"pathfinding": 600,
 	# Branch 3
 	"build_house": 0,
-	"build_road": 100,
+	"plant_tree": 100,
 	"warehouse": 250,
 	"park": 400,
 	"quarry": 800
@@ -96,8 +96,8 @@ var skill_prereqs = {
 	"pathfinding": "radar",
 	# Branch 3
 	"build_house": "",
-	"build_road": "build_house",
-	"warehouse": "build_road",
+	"plant_tree": "build_house",
+	"warehouse": "plant_tree",
 	"park": "warehouse",
 	"quarry": "park"
 }
@@ -106,8 +106,8 @@ var skill_prereqs = {
 var tax_per_person: int = 5
 var house_build_cost: int = 50
 var house_wood_required: int = 5
-var road_build_cost: int = 30
-var road_wood_required: int = 2
+var plant_tree_cost: int = 5
+var plant_tree_wood_required: int = 0
 var warehouse_build_cost: int = 200
 var warehouse_wood_required: int = 8
 var park_build_cost: int = 300
@@ -193,15 +193,15 @@ func get_city_map_as_json() -> Array:
 	
 	# Get all nodes that are currently in these groups
 	var houses = get_tree().get_nodes_in_group("houses")
-	var roads = get_tree().get_nodes_in_group("roads")
+	var planted_trees = get_tree().get_nodes_in_group("planted_trees")
 	var warehouses = get_tree().get_nodes_in_group("warehouse")
 	var parks = get_tree().get_nodes_in_group("parks")
 	var quarries = get_tree().get_nodes_in_group("quarries")
 	
 	for b in houses:
 		map_data.append({"pos_x": b.position.x, "pos_y": b.position.y, "type": "house"})
-	for r in roads:
-		map_data.append({"pos_x": r.position.x, "pos_y": r.position.y, "type": "road"})
+	for t in planted_trees:
+		map_data.append({"pos_x": t.position.x, "pos_y": t.position.y, "type": "planted_tree"})
 	for w in warehouses:
 		if not w.is_in_group("base"): # Don't duplicate starting base
 			map_data.append({"pos_x": w.position.x, "pos_y": w.position.y, "type": "warehouse"})
@@ -315,7 +315,7 @@ func load_game_from_cloud():
 func get_city_summary() -> Dictionary:
 	var summary = {
 		"house": 0,
-		"road": 0,
+		"planted_tree": 0,
 		"warehouse": 0,
 		"park": 0,
 		"quarry": 0,
@@ -472,12 +472,14 @@ func spend_resources(m_amount: int, w_amount: int) -> bool:
 func check_for_evolution():
 	var old_era = current_era
 	
-	if population < 20:
+	if population < 25:
 		current_era = "Rural"
-	elif population < 100: # I used 100 here to match your earlier strategy
+	elif population < 100:
 		current_era = "Suburban"
-	else:
+	elif population < 200:
 		current_era = "Urban"
+	else:
+		current_era = "Metropolis"
 	
 	# Always emit if we want to "Force" a refresh, 
 	# but only print/log if it's a new evolution
@@ -510,9 +512,9 @@ func reset_session_data():
 	
 	# 4. Reset Skill Tree (Lock everything except root/default nodes)
 	skill_unlocked = {
-		"chop": false,
-		"collect": false,
-		"deposit": false,
+		"chop": true,
+		"collect": true,
+		"deposit": true,
 		"while_loop": false,
 		"if_else": false,
 		"variables": false,
@@ -522,7 +524,7 @@ func reset_session_data():
 		"radar": false,
 		"pathfinding": false,
 		"build_house": true,
-		"build_road": false,
+		"plant_tree": false,
 		"warehouse": false,
 		"park": false,
 		"quarry": false

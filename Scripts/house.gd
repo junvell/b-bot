@@ -18,6 +18,8 @@ func _on_era_updated(new_era):
 			sprite.texture = load("res://Sprites/House/brick.house.png")
 		"Urban":
 			sprite.texture = load("res://Sprites/House/modern.house.png")
+		"Metropolis":
+			sprite.texture = load("res://Sprites/House/apartment.1.png")
 	# Visual 'Bounce' effect when evolving
 	var tween = create_tween()
 	tween.tween_property(sprite, "scale", Vector2(1.2, 1.2), 0.1)

@@ -1,21 +1,17 @@
-[gd_scene format=3 uid="uid://park_scene_001"]
+[gd_scene format=3 uid="uid://boe8w4v1ubp88"]
+
+[ext_resource type="Texture2D" uid="uid://cpflqqwggthu7" path="res://Sprites/others/mini park.png" id="1_myf6o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_park"]
-size = Vector2(32, 32)
+size = Vector2(53, 53)
 
-[node name="Park" type="Node2D" groups=["parks"]]
+[node name="Park" type="Node2D" unique_id=2103015408 groups=["parks"]]
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.2, 0.75, 0.25, 1)
-polygon = PackedVector2Array(-15, -15, 15, -15, 15, 15, -15, 15)
+[node name="Polygon2D" type="Sprite2D" parent="." unique_id=1529609598]
+texture = ExtResource("1_myf6o")
 
-[node name="Label" type="Label" parent="."]
-position = Vector2(-10, -22)
-text = "🌳"
-theme_override_font_sizes/font_size = 14
+[node name="Area2D" type="Area2D" parent="." unique_id=1545758532]
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1443196159]
+position = Vector2(0.5, -1.5)
 shape = SubResource("RectangleShape2D_park")
-

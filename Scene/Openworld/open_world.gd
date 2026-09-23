@@ -45,12 +45,7 @@ func _spawn_resources_on_grass():
 	var safe_tiles = _get_safe_spawn_tiles()
 	safe_tiles.shuffle() # Randomize the list
 	
-	# Spawn 5 Trees and 3 Rocks on random empty tiles
-	var trees_to_spawn = min(5, safe_tiles.size())
-	for i in range(trees_to_spawn):
-		var cell = safe_tiles.pop_front()
-		_spawn_object(tree_scene, floor_layer.map_to_local(cell))
-		
+	# Spawn only Rocks (Trees are now manually planted)
 	var rocks_to_spawn = min(3, safe_tiles.size())
 	for i in range(rocks_to_spawn):
 		var cell = safe_tiles.pop_front()
@@ -130,8 +125,8 @@ func _on_regrowth_tick():
 		var safe_tiles = _get_safe_spawn_tiles()
 		if safe_tiles.size() > 0:
 			safe_tiles.shuffle()
-			# Choose Tree (70% chance) or Rock (30% chance)
-			var chosen_scene = tree_scene if randf() > 0.3 else rock_scene
+			# Choose only Rock (Trees are now manually planted)
+			var chosen_scene = rock_scene
 			_spawn_object(chosen_scene, floor_layer.map_to_local(safe_tiles[0]))
 			# print("New resource grown. Current: ", total_current_resources + 1, "/", max_resources_allowed)
 	else:

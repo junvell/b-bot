@@ -82,6 +82,8 @@ func _load_report_data():
 			era_label.modulate = Color(0.9, 0.8, 0.2)
 		"Urban":
 			era_label.modulate = Color(0.2, 0.8, 1.0)
+		"Metropolis":
+			era_label.modulate = Color(0.8, 0.2, 1.0)
 
 	pop_label.text = "Citizens: " + str(Global.population)
 	
@@ -100,7 +102,7 @@ func _load_report_data():
 	
 	# Buildings breakdown
 	house_count_lbl.text = "Houses: " + str(summary.get("house", 0))
-	road_count_lbl.text = "Roads: " + str(summary.get("road", 0))
+	road_count_lbl.text = "Planted Trees: " + str(summary.get("planted_tree", 0))
 	warehouse_count_lbl.text = "Warehouses: " + str(summary.get("warehouse", 0))
 	park_count_lbl.text = "Parks: " + str(park_count)
 	quarry_count_lbl.text = "Quarries: " + str(summary.get("quarry", 0))
@@ -140,6 +142,7 @@ func _load_report_from_dict(profile: Dictionary):
 		"Rural":    era_label.modulate = Color(0.4, 0.9, 0.4)
 		"Suburban": era_label.modulate = Color(0.9, 0.8, 0.2)
 		"Urban":    era_label.modulate = Color(0.2, 0.8, 1.0)
+		"Metropolis": era_label.modulate = Color(0.8, 0.2, 1.0)
 
 	pop_label.text = "Citizens: " + str(profile.get("population", 0))
 	tax_label.text = "Tax Rate: $5 / pop / 5s"
@@ -150,7 +153,7 @@ func _load_report_from_dict(profile: Dictionary):
 
 	# Count buildings from city_map
 	var city_map = profile.get("city_map", [])
-	var counts = {"house": 0, "road": 0, "warehouse": 0, "park": 0, "quarry": 0, "total": 0}
+	var counts = {"house": 0, "planted_tree": 0, "warehouse": 0, "park": 0, "quarry": 0, "total": 0}
 	if city_map is Array:
 		for item in city_map:
 			if item is Dictionary and item.has("type"):
@@ -160,7 +163,7 @@ func _load_report_from_dict(profile: Dictionary):
 				counts["total"] += 1
 
 	house_count_lbl.text = "Houses: " + str(counts["house"])
-	road_count_lbl.text = "Roads: " + str(counts["road"])
+	road_count_lbl.text = "Planted Trees: " + str(counts["planted_tree"])
 	warehouse_count_lbl.text = "Warehouses: " + str(counts["warehouse"])
 	park_count_lbl.text = "Parks: " + str(counts["park"])
 	quarry_count_lbl.text = "Quarries: " + str(counts["quarry"])
@@ -201,7 +204,7 @@ func _populate_skills_from_dict(skill_data):
 		"radar": "Resource Radar",
 		"pathfinding": "Autonomous Pathfinding",
 		"build_house": "Build Houses",
-		"build_road": "Pave Roads",
+		"plant_tree": "Plant Trees",
 		"warehouse": "Secondary Warehouses",
 		"park": "Public Parks",
 		"quarry": "Stone Quarry"
