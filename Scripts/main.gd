@@ -19,6 +19,8 @@ var active_slot: VBoxContainer
 var python_cmd_queue: Array = []
 var is_processing_python_queue: bool = false
 var call_depth: int = 0 # Recursion guard for call_func
+var help_button: Button
+var help_text_label: Label
 
 # Resource Labels
 @onready var money_label = $CanvasLayer/HUD/MainHBox/HBoxContainer3/MoneyLabel
@@ -89,6 +91,22 @@ func _ready():
 	sequence.set_script(preload("res://Scripts/terminal_drop_zone.gd"))
 	sequence.block_dropped.connect(_on_slot_block_dropped.bind(sequence))
 	
+	# Initialize Help UI in MissionPanel
+	help_button = Button.new()
+	help_button.text = "? Help"
+	help_button.add_theme_font_size_override("font_size", 12)
+	help_button.pressed.connect(func(): help_text_label.visible = not help_text_label.visible)
+	
+	help_text_label = Label.new()
+	help_text_label.visible = false
+	help_text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	help_text_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4)) # Yellowish
+	help_text_label.add_theme_font_size_override("font_size", 11)
+	
+	var vbox2 = $CanvasLayer/MissionPanel/VBoxContainer2
+	vbox2.add_child(help_button)
+	vbox2.add_child(help_text_label)
+
 	# START THE FIRST LEVEL
 	load_mission(Global.current_module, Global.current_level)
 	_update_hud()
@@ -258,7 +276,10 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Level 1: Move Forward"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Move 4 steps right to the flag."
-					_add_tutorial_overlay(map, "How to Move", "Drag Move Right blocks into the Program. Press Run to make B-Bot move.")
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Move Right'"
+					_add_tutorial_overlay(map, "How to Move", "Drag 'Move Right' blocks into the sequence. Tip: Right-click any block to remove it. Press Run to execute!")
 				
 				2:
 					var map = level_2_scene.instantiate()
@@ -269,6 +290,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Level 2: Multiple Movements"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Navigate the path to the flag."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Move' blocks (Up, Down, Left, Right)"
 					_add_tutorial_overlay(map, "Multiple Movements", "Chain multiple Move blocks to navigate turns.")
 				
 				3:
@@ -280,7 +304,10 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Level 3: Loops"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Use a while loop to reach the flag."
-					_add_tutorial_overlay(map, "Using Loops", "Use a While Loop block to repeat commands. Drag blocks inside the loop body.")
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'While Loop', 'Move'"
+					_add_tutorial_overlay(map, "Using Loops", "Use a While Loop block to repeat commands. Drag Move blocks inside the loop body.")
 				
 				4:
 					var map = level_4_scene.instantiate()
@@ -291,6 +318,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Level 4: If & Else"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Choose the correct path \n using if/else."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'If/Else', 'Move'"
 					_add_tutorial_overlay(map, "If & Else", "Use If/Else to choose different paths. Drag blocks into the If and Else slots.")
 				
 				5:
@@ -302,6 +332,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Level 5: Nested Logic"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Navigate the maze \n using loops and conditions."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'While Loop', 'If/Else', 'Move'"
 					_add_tutorial_overlay(map, "Nested Logic", "Combine loops and conditions to solve complex mazes.")
 				
 				6: # THE OPEN WORLD TRIGGER
@@ -326,6 +359,7 @@ func load_mission(module_id, lvl_id):
 					editor_button.show()
 					research_button.show()
 					back_button.show()
+					help_button.hide()
 					
 					_setup_palette_for_level(3, 6)
 					_log("Open World Initiated. Welcome, Mayor.")
@@ -341,6 +375,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 2 - Level 1: First Harvest"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Move to the tree and collect it, then reach the flag."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Move', 'Collect'"
 					_add_tutorial_overlay(map, "First Harvest", "Stand next to a tree and use the Collect block to gather wood.")
 				
 				2:
@@ -352,6 +389,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 2 - Level 2: Clear Cutting"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Collect a straight row of 5 trees."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'While Loop', 'Collect'"
 					_add_tutorial_overlay(map, "Clear Cutting", "Use a While Loop to collect multiple trees in a row.")
 				
 				3:
@@ -363,6 +403,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 2 - Level 3: Quality Control"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Only collect trees. Skip the rocks!"
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Scan', 'If/Else', 'Collect'"
 					_add_tutorial_overlay(map, "Quality Control", "Use Scan + If/Else to only collect trees and skip rocks.")
 				
 				4:
@@ -374,6 +417,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 50
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 2 - Level 4: Inventory Management"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Collect exactly 50 Wood. Watch your bag limit!"
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Collect', 'Move', 'Deposit'"
 					_add_tutorial_overlay(map, "Inventory Management", "Your bag has a limit! Collect wood, then Deposit at the Warehouse. Repeat until you have 50 wood.")
 				
 				5:
@@ -385,6 +431,9 @@ func load_mission(module_id, lvl_id):
 					current_win_target = 0
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 2 - Level 5: The Warehouse"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Collect wood, go to the Warehouse, and deposit it."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Collect', 'Move', 'Deposit'"
 					_add_tutorial_overlay(map, "The Warehouse", "Stand on the Warehouse tile and use Deposit to store your wood.")
 				
 				6: # THE OPEN WORLD TRIGGER
@@ -409,6 +458,7 @@ func load_mission(module_id, lvl_id):
 					editor_button.show()
 					research_button.show()
 					back_button.show()
+					help_button.hide()
 					
 					_setup_palette_for_level(3, 6)
 					_log("Open World Initiated. Welcome, Mayor.")
@@ -426,6 +476,9 @@ func load_mission(module_id, lvl_id):
 					Global.wood = 10
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 1: First Foundation"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Construct one house on a clear tile."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Move', 'Build House'"
 					_add_tutorial_overlay(map, "First Foundation", "Use the Build House block on an empty tile to construct a house.")
 				
 				2:
@@ -439,6 +492,9 @@ func load_mission(module_id, lvl_id):
 					Global.wood = 10
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 2: Green Thumb"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Plant a row of 3 trees."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Move', 'Plant Tree'"
 					_add_tutorial_overlay(map, "Green Thumb", "Use the Plant Tree block on empty tiles to grow trees.")
 				
 				3:
@@ -452,6 +508,9 @@ func load_mission(module_id, lvl_id):
 					Global.wood = 15
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 3: Budgeting"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Build 2 houses. Each costs $100 and 5 wood."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Build House'"
 					_add_tutorial_overlay(map, "Budgeting", "Houses cost money and wood! Plan your resources carefully.")
 				
 				4:
@@ -465,6 +524,9 @@ func load_mission(module_id, lvl_id):
 					Global.wood = 5
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 4: Land Clearing"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Chop the tree for money, then build a house."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Chop', 'Build House'"
 					_add_tutorial_overlay(map, "Land Clearing", "Chop trees to earn money, then use that money to build houses.")
 				
 				5:
@@ -478,6 +540,9 @@ func load_mission(module_id, lvl_id):
 					Global.wood = 30
 					$CanvasLayer/MissionPanel/VBoxContainer/Title.text = "Module 3 - Level 5: Green Suburb"
 					$CanvasLayer/MissionPanel/VBoxContainer2/Task.text = "Goal: Build 3 houses and plant 3 trees."
+					help_button.show()
+					help_text_label.visible = false
+					help_text_label.text = "Required Blocks: 'Build House', 'Plant Tree'"
 					_add_tutorial_overlay(map, "Green Suburb", "Combine houses and trees to build a sustainable city!")
 				
 				6: # THE OPEN WORLD TRIGGER
@@ -504,6 +569,7 @@ func load_mission(module_id, lvl_id):
 					editor_button.show()
 					$CanvasLayer/MissionPanel.hide()
 					$CanvasLayer/Terminal.show()
+					help_button.hide()
 					
 					# 5. Unlock palette
 					_setup_palette_for_level(3, 6) 

@@ -1,6 +1,14 @@
 [gd_scene format=3 uid="uid://cvke3t5lq2jew"]
 
 [ext_resource type="Script" uid="uid://c03w5uytjocpq" path="res://Scene/modeselection/modeselection.gd" id="1_h8vbk"]
+[ext_resource type="StyleBox" uid="uid://b4sepglpaesil" path="res://LevelSelectStyle.tres" id="2_qcc8k"]
+
+[sub_resource type="Gradient" id="Gradient_gv0np"]
+colors = PackedColorArray(0.05882353, 0.09019608, 0.16470589, 1, 0.11764706, 0.105882354, 0.29411766, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dplxh"]
+gradient = SubResource("Gradient_gv0np")
+fill = 1
 
 [node name="Modeselection" type="Control" unique_id=1233395764]
 layout_mode = 3
@@ -12,14 +20,14 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_h8vbk")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1082881260]
+[node name="ColorRect" type="TextureRect" parent="." unique_id=2125454457]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.3337397, 0.3063278, 0.44388333, 1)
+texture = SubResource("GradientTexture2D_dplxh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1573362162]
 layout_mode = 1
@@ -28,34 +36,38 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -65.0
-offset_right = 150.0
-offset_bottom = 65.0
+offset_left = -134.5
+offset_top = -66.0
+offset_right = 134.5
+offset_bottom = 66.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
 mouse_filter = 2
+theme_override_constants/separation = 20
 
 [node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=714533073]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+theme_override_styles/normal = ExtResource("2_qcc8k")
 text = "TUTORIAL MODULES"
 
 [node name="HistoryButton" type="Button" parent="VBoxContainer" unique_id=1583362163]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+theme_override_styles/normal = ExtResource("2_qcc8k")
 text = "PROGRESS & HISTORY REPORT"
 
 [node name="OpenWorldButton" type="Button" parent="VBoxContainer" unique_id=1168221358]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+theme_override_styles/normal = ExtResource("2_qcc8k")
 text = "ENTER OPEN WORLD"
 
 [node name="BackButton" type="Button" parent="." unique_id=280847115]
 layout_mode = 0
-offset_left = 1037.0
-offset_top = 613.0
-offset_right = 1151.0
-offset_bottom = 644.0
+offset_left = 1008.0
+offset_top = 612.0
+offset_right = 1149.0
+offset_bottom = 645.0
+theme_override_styles/normal = ExtResource("2_qcc8k")
 text = "Back to Menu"
