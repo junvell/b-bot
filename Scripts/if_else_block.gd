@@ -20,7 +20,7 @@ func _ready():
 		condition_slot.set_script(preload("res://Scripts/terminal_drop_zone.gd"))
 		condition_slot.block_dropped.connect(_on_condition_dropped)
 
-func _on_condition_dropped(data: Dictionary, at_position: Vector2):
+func _on_condition_dropped(data: Dictionary, _at_position: Vector2):
 	if data.has("command_id") and data.command_id == "scan":
 		var new_block = preload("res://Scene/Action_block.tscn").instantiate()
 		new_block.command_id = "scan"

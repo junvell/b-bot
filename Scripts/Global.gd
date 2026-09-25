@@ -9,7 +9,6 @@ var is_data_ready: bool = false # THE GUARD FLAG
 signal stats_changed
 signal inventory_changed
 signal item_collected(type: String, amount: int)
-signal mission_complete(python_code)
 signal era_changed(new_era_name)
 
 # --- STRATEGY RESOURCES ---

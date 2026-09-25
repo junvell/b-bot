@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://tw68kfg1cdn6"]
 
-[ext_resource type="Script" uid="uid://cx600q8u0t28d" path="res://Scripts/tree.gd" id="1_script"]
+[ext_resource type="Script" path="res://Scripts/tree.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bi46byrl8snth" path="res://Sprites/Big_Fruit_Tree.png" id="1_1i8wt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1i8wt"]
@@ -10,7 +10,7 @@ size = Vector2(30, 46)
 script = ExtResource("1_script")
 
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1106534492 groups=["trees"]]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1106534492]
 position = Vector2(0, -23)
 texture = ExtResource("1_1i8wt")
 region_enabled = true

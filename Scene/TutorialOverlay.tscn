@@ -133,6 +133,7 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="Description" type="Label" parent="Panel/VBoxContainer" unique_id=1460429149]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "Drag blocks from the palette to the Program area, then press Run Program."
 label_settings = SubResource("LabelSettings_desc")

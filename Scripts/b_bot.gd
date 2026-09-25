@@ -238,7 +238,7 @@ func move_to(target_name: String) -> bool:
 				print("[PATHFINDING] Reached adjacent to ", target_name, ". Facing: ", facing_direction)
 				return true
 		else:
-			if position.distance_to(target_pos) <= grid_size / 2:
+			if position.distance_to(target_pos) <= grid_size / 2.0:
 				print("[PATHFINDING] Reached ", target_name)
 				return true
 		
@@ -279,7 +279,7 @@ func move_to(target_name: String) -> bool:
 				facing_direction = Vector2.DOWN if final_diff.y > 0 else Vector2.UP
 			flip_h = (facing_direction == Vector2.LEFT)
 			return true
-	return position.distance_to(target_pos) <= grid_size / 2
+	return position.distance_to(target_pos) <= grid_size / 2.0
 
 func chop():
 	# Check all 4 adjacent tiles for trees

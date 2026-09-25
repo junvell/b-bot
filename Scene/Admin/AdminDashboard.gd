@@ -49,7 +49,6 @@ func _update_analytics(students: Array):
 	total_students_lbl.text = str(students.size())
 
 	var total_mod_progress: float = 0.0
-	var total_runs: int = 0
 
 	for s in students:
 		var m1 = clamp(int(s.get("module1_progress", 1)) - 1, 0, 5)
@@ -256,4 +255,3 @@ func _on_export_pressed():
 			file.store_string(csv_text)
 			file.close()
 			print("[ADMIN] CSV exported to: ", OS.get_user_data_dir() + "/b_bot_student_progress.csv")
-

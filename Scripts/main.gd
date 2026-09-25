@@ -124,7 +124,7 @@ func _notification(what):
 			await Global.save_game_to_cloud()
 		get_tree().quit()
 
-func _process(delta):
+func _process(_delta):
 	if OS.has_feature("web"):
 		# Export bot state every 5 frames only (throttle to reduce web overhead)
 		if Engine.get_process_frames() % 5 == 0:
@@ -134,10 +134,10 @@ func _process(delta):
 				"scan": bot.scan() if is_instance_valid(bot) else "empty",
 				"at_goal": bot.is_at_goal() if is_instance_valid(bot) else false,
 				"is_path_ahead": bot.is_path_ahead(bot.facing_direction) if is_instance_valid(bot) else false,
-				"bot_x": bot.global_position.x if is_instance_valid(bot) else 0,
-				"bot_y": bot.global_position.y if is_instance_valid(bot) else 0,
-				"goal_x": goal.global_position.x if is_instance_valid(goal) else 99999,
-				"goal_y": goal.global_position.y if is_instance_valid(goal) else 99999,
+				"bot_x": bot.global_position.x if is_instance_valid(bot) else 0.0,
+				"bot_y": bot.global_position.y if is_instance_valid(bot) else 0.0,
+				"goal_x": goal.global_position.x if is_instance_valid(goal) else 99999.0,
+				"goal_y": goal.global_position.y if is_instance_valid(goal) else 99999.0,
 				"grid_size": bot.grid_size if is_instance_valid(bot) else 32,
 				"wood": Global.wood,
 				"wood_inventory": Global.wood_inventory,
@@ -992,7 +992,7 @@ func _check_win_mid_execution() -> bool:
 		return built_count >= current_win_target
 	return false
 
-func _evaluate_while_condition(block) -> bool:
+func _evaluate_while_condition(_block) -> bool:
 	# Default: while not at goal
 	if current_win_type == "collect_count":
 		return Global.wood < current_win_target

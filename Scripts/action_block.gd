@@ -25,7 +25,7 @@ func _ready():
 		"build_quarry": text = "Build Quarry"
 		_: text = command_id
 
-func _get_drag_data(at_position):
+func _get_drag_data(_at_position):
 	var preview = Button.new()
 	preview.text = text
 	preview.custom_minimum_size = custom_minimum_size
