@@ -97,6 +97,9 @@ func _ready():
 	help_button.add_theme_font_size_override("font_size", 12)
 	help_button.pressed.connect(func(): help_text_label.visible = not help_text_label.visible)
 	
+	# Hook into city evolution for the floating text
+	Global.era_changed.connect(_on_era_changed)
+	
 	help_text_label = Label.new()
 	help_text_label.visible = false
 	help_text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1584,3 +1587,36 @@ func _on_help_button_pressed():
 
 func _log(msg: String):
 	print("[SYSTEM]: ", msg)
+
+func _on_era_changed(new_era: String):
+	# Only show the pop-up if we are in Open World
+	if not Global.is_free_will_mode:
+		return
+		
+	var toast = Label.new()
+	toast.text = "City Evolved: " + new_era + " Era!"
+	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	
+	# Styling: Large, Gold text with a Black outline so it's readable anywhere
+	toast.add_theme_font_size_override("font_size", 36)
+	toast.add_theme_color_override("font_color", Color(1.0, 0.84, 0.0)) # Gold
+	toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	toast.add_theme_constant_override("outline_size", 8)
+	
+	$CanvasLayer.add_child(toast)
+	
+	# Center it near the top of the screen
+	toast.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	toast.position.y = 150
+	
+	# Wait one frame so the font renders and we get an accurate minimum size
+	await get_tree().process_frame
+	toast.position.x -= toast.get_minimum_size().x / 2.0
+	
+	# Animate it: Float upwards and fade out over 4 seconds
+	var tween = create_tween()
+	tween.tween_property(toast, "position:y", toast.position.y - 60, 4.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	tween.parallel().tween_property(toast, "modulate:a", 0.0, 4.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	
+	# Auto-delete the text when the animation is done
+	tween.tween_callback(toast.queue_free)

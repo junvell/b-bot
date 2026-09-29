@@ -62,12 +62,14 @@ func __get_session_header() -> PackedStringArray :
 
 func _check_auth() -> AuthTask:
 	var auth_task : AuthTask = AuthTask.new()
-	auth_task.completed.emit(auth_task)
+	# Must be deferred so caller's await .completed has time to attach!
+	get_tree().process_frame.connect(func(): auth_task.complete(client, {}, null), CONNECT_ONE_SHOT)
 	return auth_task
 
 # Allow your users to sign up and create a new account.
 func sign_up(email : String, password : String) -> AuthTask:
-	if _auth != "": return _check_auth()
+	client = null
+	_auth = ""
 	var payload : Dictionary = {"email":email, "password":password}
 	var auth_task : AuthTask = AuthTask.new()._setup(
 		AuthTask.Task.SIGNUP,
@@ -95,7 +97,9 @@ func sign_up_phone(phone : String, password : String) -> AuthTask:
 
 # If an account is created, users can login to your app.
 func sign_in(email : String, password : String = "") -> AuthTask:
-	if _auth != "": return _check_auth()
+	# Clear any previous or temporary token so fresh login credentials can authenticate
+	client = null
+	_auth = ""
 	var payload : Dictionary = {"email":email, "password":password}
 	var auth_task : AuthTask = AuthTask.new()._setup(
 		AuthTask.Task.SIGNIN,
