@@ -296,6 +296,8 @@ func _process_task(task : AuthTask, _fake : bool = false) -> void:
 		task.complete(task.user, task.data, task.error)
 	else:
 		var httprequest : HTTPRequest = HTTPRequest.new()
+		if OS.has_feature("web"):
+			httprequest.accept_gzip = false
 		add_child(httprequest)
 		task.push_request(httprequest)
 

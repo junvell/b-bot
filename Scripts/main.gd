@@ -1603,15 +1603,18 @@ func _on_era_changed(new_era: String):
 	toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 	toast.add_theme_constant_override("outline_size", 8)
 	
+	# Let the label size itself to fit its content
+	toast.autowrap_mode = TextServer.AUTOWRAP_OFF
+	
 	$CanvasLayer.add_child(toast)
 	
-	# Center it near the top of the screen
-	toast.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	toast.position.y = 150
-	
-	# Wait one frame so the font renders and we get an accurate minimum size
+	# Wait one frame so Godot calculates the label's rendered size
 	await get_tree().process_frame
-	toast.position.x -= toast.get_minimum_size().x / 2.0
+	
+	# Center it horizontally and place it near the top of the screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	toast.position.x = (viewport_size.x - toast.size.x) / 2.0
+	toast.position.y = 150
 	
 	# Animate it: Float upwards and fade out over 4 seconds
 	var tween = create_tween()
