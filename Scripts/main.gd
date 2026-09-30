@@ -22,6 +22,9 @@ var call_depth: int = 0 # Recursion guard for call_func
 var help_button: Button
 var help_text_label: Label
 
+@onready var output_label = $CanvasLayer/OutputLabel
+var _output_clear_timer: SceneTreeTimer = null
+
 # Resource Labels
 @onready var money_label = $CanvasLayer/HUD/MainHBox/HBoxContainer3/MoneyLabel
 @onready var wood_label = $CanvasLayer/HUD/MainHBox/HBoxContainer/WoodLabel
@@ -109,6 +112,7 @@ func _ready():
 	var vbox2 = $CanvasLayer/MissionPanel/VBoxContainer2
 	vbox2.add_child(help_button)
 	vbox2.add_child(help_text_label)
+
 
 	# START THE FIRST LEVEL
 	load_mission(Global.current_module, Global.current_level)
@@ -814,19 +818,22 @@ func execute_blocks(block_list):
 					var vname = block.var_name if "var_name" in block else "count"
 					var vval  = block.var_value if "var_value" in block else 0
 					bot.set_var(vname, vval)
+					_show_output("[VAR] " + vname + " = " + str(vval))
 				else:
 					_log("ERROR: Variable memory not installed.")
 
 			# --- GPS (Requires Skill) ---
 			"get_x":
 				if not needs_check or Global.skill_unlocked.get("gps", false):
-					bot.get_x()
+					var gx = bot.get_x()
+					_show_output("[GPS] X = " + str(gx))
 				else:
 					_log("ERROR: GPS Transponder not installed.")
 
 			"get_y":
 				if not needs_check or Global.skill_unlocked.get("gps", false):
-					bot.get_y()
+					var gy = bot.get_y()
+					_show_output("[GPS] Y = " + str(gy))
 				else:
 					_log("ERROR: GPS Transponder not installed.")
 
@@ -834,7 +841,11 @@ func execute_blocks(block_list):
 			"find_nearest":
 				if not needs_check or Global.skill_unlocked.get("radar", false):
 					var ttype = block.target_type if "target_type" in block else "trees"
-					bot.find_nearest(ttype)
+					var result = bot.find_nearest(ttype)
+					if result.found:
+						_show_output("[RADAR] Nearest " + ttype + ": " + result.direction + " at " + str(result.distance) + " steps.")
+					else:
+						_show_output("[RADAR] No " + ttype + " found.")
 				else:
 					_log("ERROR: Resource Radar not installed.")
 
@@ -1517,6 +1528,7 @@ func _execute_python_command(command: String, argument: String):
 					var vname = parts[0].strip_edges()
 					var vval = int(parts[1].strip_edges()) if parts[1].strip_edges().is_valid_int() else parts[1].strip_edges()
 					bot.set_var(vname, vval)
+					_show_output("[VAR] " + vname + " = " + str(vval))
 				else:
 					_log("set_var usage: set_var name=value")
 			else:
@@ -1525,20 +1537,27 @@ func _execute_python_command(command: String, argument: String):
 		# --- GPS ---
 		"get_x":
 			if not needs_skill_check or Global.skill_unlocked.get("gps", false):
-				bot.get_x()
+				var gx = bot.get_x()
+				_show_output("[GPS] X = " + str(gx))
 			else:
 				_log("ERROR: GPS Transponder not installed.")
 
 		"get_y":
 			if not needs_skill_check or Global.skill_unlocked.get("gps", false):
-				bot.get_y()
+				var gy = bot.get_y()
+				_show_output("[GPS] Y = " + str(gy))
 			else:
 				_log("ERROR: GPS Transponder not installed.")
 
 		# --- RADAR ---
 		"find_nearest":
 			if not needs_skill_check or Global.skill_unlocked.get("radar", false):
-				bot.find_nearest(argument if argument != "" else "trees")
+				var ttype = argument if argument != "" else "trees"
+				var result = bot.find_nearest(ttype)
+				if result.found:
+					_show_output("[RADAR] Nearest " + ttype + ": " + result.direction + " at " + str(result.distance) + " steps.")
+				else:
+					_show_output("[RADAR] No " + ttype + " found.")
 			else:
 				_log("ERROR: Resource Radar not installed.")
 
@@ -1587,6 +1606,20 @@ func _on_help_button_pressed():
 
 func _log(msg: String):
 	print("[SYSTEM]: ", msg)
+
+func _show_output(msg: String) -> void:
+	if output_label:
+		output_label.text = msg
+		output_label.visible = true
+		if _output_clear_timer != null:
+			_output_clear_timer.timeout.disconnect(_clear_output)
+		_output_clear_timer = get_tree().create_timer(4.0)
+		_output_clear_timer.timeout.connect(_clear_output)
+
+func _clear_output() -> void:
+	if output_label:
+		output_label.visible = false
+	_output_clear_timer = null
 
 func _on_era_changed(new_era: String):
 	# Only show the pop-up if we are in Open World
