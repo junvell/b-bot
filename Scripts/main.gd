@@ -1202,8 +1202,17 @@ func _spawn_building(type: String):
 	if type == "planted_tree" and "is_planted" in new_building:
 		new_building.is_planted = true
 	
-	# Set position and add to the grid
-	new_building.position = bot.position
+	# Snap position to the nearest TileMap tile so buildings land exactly on a cell
+	var spawn_pos = bot.position
+	var level = container.get_child(0) if container.get_child_count() > 0 else null
+	if level:
+		var tilemap = level.get_node_or_null("TileMapLayer")
+		if tilemap:
+			var cell = tilemap.local_to_map(tilemap.to_local(bot.global_position))
+			spawn_pos = tilemap.to_global(tilemap.map_to_local(cell))
+			# Convert back to city_grid local space
+			spawn_pos = city_grid.to_local(spawn_pos)
+	new_building.position = spawn_pos
 	city_grid.add_child(new_building)
 	
 	# Wait one frame so Godot adds the node to its groups

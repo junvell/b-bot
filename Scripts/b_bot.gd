@@ -4,12 +4,14 @@ var grid_size = 32
 var move_speed = 0.2
 var facing_direction = Vector2.RIGHT # NEW: Tracks where the bot is looking
 var starting_position: Vector2
+var global_starting_position: Vector2
 
 # --- VARIABLE STORAGE (unlocked by Variables skill) ---
 var variables: Dictionary = {}
 
 func _ready():
 	starting_position = position
+	global_starting_position = global_position
 	stop()
 	frame = 0
 
@@ -40,11 +42,33 @@ func move_bot(direction: Vector2) -> bool:
 			await get_tree().create_timer(move_speed).timeout 
 			return false
 			
-	# --- NEW: SOLID OBSTACLE CHECK ---
-	# Before moving, check if a tree is physically blocking the target tile
+	# --- SOLID OBSTACLE CHECK ---
+	# Use the bot's own start position as the grid origin so that any tree
+	# within the same 32px tile as the target will block movement, even if
+	# the tree's world position isn't a perfect multiple of 32.
+	var target_global = global_position + (direction * grid_size)
+	var origin = global_starting_position
+	var target_cell = Vector2i(
+		roundi(round((target_global.x - origin.x) / float(grid_size))),
+		roundi(round((target_global.y - origin.y) / float(grid_size)))
+	)
+
+	var trees_found = get_tree().get_nodes_in_group("trees")
+	print("[COLLISION DEBUG] target_global:", target_global, " target_cell:", target_cell, " Trees:", trees_found.size())
+	for node in trees_found:
+		var nc = Vector2i(
+			roundi(round((node.global_position.x - origin.x) / float(grid_size))),
+			roundi(round((node.global_position.y - origin.y) / float(grid_size)))
+		)
+		print("[COLLISION DEBUG] Tree at:", node.global_position, " cell:", nc)
+
 	var is_blocked = false
-	for tree in get_tree().get_nodes_in_group("trees"):
-		if tree.global_position.distance_to(target_pos) < 10.0:
+	for node in trees_found:
+		var node_cell = Vector2i(
+			roundi(round((node.global_position.x - origin.x) / float(grid_size))),
+			roundi(round((node.global_position.y - origin.y) / float(grid_size)))
+		)
+		if node_cell == target_cell:
 			is_blocked = true
 			break
 			
@@ -85,16 +109,12 @@ func move_bot(direction: Vector2) -> bool:
 func get_object_under_bot():
 	# Get all overlapping areas or bodies
 	var areas = $Area2D.get_overlapping_areas()
+	var solid_groups = ["trees", "rocks", "houses", "warehouse", "parks", "quarries"]
 	for area in areas:
 		var parent = area.get_parent()
-		if parent.is_in_group("trees"):
-			return parent
-		if parent.is_in_group("rocks"):
-			return parent
-		if parent.is_in_group("houses"):
-			return parent
-		if parent.is_in_group("warehouse"):
-			return parent
+		for group in solid_groups:
+			if parent.is_in_group(group):
+				return parent
 	return null
 
 func get_nearby_object():

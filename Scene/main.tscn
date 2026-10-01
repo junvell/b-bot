@@ -284,6 +284,7 @@ layout_mode = 2
 text = "Stop Program"
 
 [node name="OutputLabel" type="Label" parent="CanvasLayer" unique_id=410065409]
+visible = false
 custom_minimum_size = Vector2(100, 0)
 anchors_preset = 2
 anchor_top = 1.0

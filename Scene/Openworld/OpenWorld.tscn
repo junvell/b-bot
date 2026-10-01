@@ -25,8 +25,6 @@ position = Vector2(560, 302)
 [node name="Camera2D" type="Camera2D" parent="BBot" unique_id=1335611315]
 zoom = Vector2(1.5, 1.5)
 
-[node name="Tree" parent="." unique_id=464304752 instance=ExtResource("4_6j5ej")]
-position = Vector2(559, 286)
 
 [node name="Warehouse" parent="." unique_id=1286608618 instance=ExtResource("5_oyi7r")]
 position = Vector2(496, 336)

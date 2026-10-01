@@ -297,6 +297,9 @@ func load_game_from_cloud():
 			
 		if profile.has("city_map"):
 			saved_city_map = profile.city_map
+			# For older saves that never had a city map, seed the starter tree
+			if saved_city_map.is_empty():
+				saved_city_map = [{"pos_x": 560.0, "pos_y": 270.0, "type": "planted_tree"}]
 			
 		update_stats()
 		era_changed.emit(current_era)
@@ -304,12 +307,15 @@ func load_game_from_cloud():
 		is_data_ready = true 
 		print("[LOAD SUCCESS] Progress and Map restored for: ", user.email)
 	else:
-		is_data_ready = true 
-		print("[LOAD] No profile found or server error. Ready for new user.")
 		if result.error != null:
 			printerr("[LOAD CLOUD ERROR]: ", result.error)
+			is_data_ready = false # CRITICAL: Don't allow saving if load failed
 		else:
+			print("[LOAD] No profile found. Ready for new user.")
 			print("[LOAD CLOUD INFO]: Result data: ", result.data)
+			# Seed the starter tree for brand new accounts
+			saved_city_map = [{"pos_x": 560.0, "pos_y": 270.0, "type": "planted_tree"}]
+			is_data_ready = true
 
 func get_city_summary() -> Dictionary:
 	var summary = {
