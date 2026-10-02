@@ -16,6 +16,12 @@ var money: int = 500
 var wood: int = 0
 var stone: int = 0
 var population: int = 0
+
+# True account totals to protect against tutorial overrides
+var account_money: int = 500
+var account_wood: int = 0
+var account_stone: int = 0
+var account_population: int = 0
 var current_era: String = "Rural"
 var saved_city_map: Array = []
 
@@ -162,6 +168,13 @@ func _ready():
 	timer.wait_time = maintenance_tick
 	timer.timeout.connect(_on_economy_tick)
 	timer.start()
+	
+	# 4. Start dedicated Quarry Timer (10 seconds)
+	var quarry_timer = Timer.new()
+	add_child(quarry_timer)
+	quarry_timer.wait_time = 10.0
+	quarry_timer.timeout.connect(_on_quarry_tick)
+	quarry_timer.start()
 
 func _on_economy_tick():
 	# Count parks for tax multiplier (each park adds park_tax_bonus per person)
@@ -172,15 +185,17 @@ func _on_economy_tick():
 	var total_taxes = population * active_tax
 	money += total_taxes
 	
-	# Count quarries for passive stone income (+5 per quarry per tick)
+	update_stats()
+
+func _on_quarry_tick():
+	# Count quarries for passive stone income (+3 per quarry per tick)
 	var quarries = []
 	if get_tree():
 		quarries = get_tree().get_nodes_in_group("quarries")
 	if quarries.size() > 0:
-		stone += quarries.size() * 5
-		print("[QUARRY] Passive stone: +", quarries.size() * 5, " (total: ", stone, ")")
-	
-	update_stats()
+		stone += quarries.size() * 3
+		print("[QUARRY] Passive stone: +", quarries.size() * 3, " (total: ", stone, ")")
+		update_stats()
 
 # --- CLOUD DATA LOGIC (OBJECTIVE 5) ---
 # --- DATA SERIALIZATION ---
@@ -221,12 +236,19 @@ func save_game_to_cloud():
 	var user = Supabase.auth.client
 	if user == null: return
 
-	# 2. Prepare the standard data (Money, Progress, etc. ALWAYS save these)
+	# 2. Prepare the standard data
+	# Only update the true account totals if we are in Open World mode
+	if is_free_will_mode:
+		account_money = money
+		account_wood = wood
+		account_stone = stone
+		account_population = population
+
 	var data = {
-		"money": money,
-		"wood": wood,
-		"stone": stone,
-		"population": population,
+		"money": account_money,
+		"wood": account_wood,
+		"stone": account_stone,
+		"population": account_population,
 		"current_module": current_module,
 		"current_level": current_level,
 		"module1_progress": module1_progress,
@@ -272,10 +294,16 @@ func load_game_from_cloud():
 	if result.error == null and result.data is Array and result.data.size() > 0:
 		var profile = result.data[0]
 		
-		money = int(profile.get("money", 500))
-		wood = int(profile.get("wood", 0))
-		stone = int(profile.get("stone", 0))
-		population = int(profile.get("population", 0))
+		account_money = int(profile.get("money", 500))
+		account_wood = int(profile.get("wood", 0))
+		account_stone = int(profile.get("stone", 0))
+		account_population = int(profile.get("population", 0))
+		
+		money = account_money
+		wood = account_wood
+		stone = account_stone
+		population = account_population
+		
 		current_module = int(profile.get("current_module", 1))
 		current_level = int(profile.get("current_level", 1))
 		current_era = profile.get("current_era", "Rural")
@@ -503,6 +531,11 @@ func reset_session_data():
 	wood = 0
 	stone = 0
 	population = 0
+	
+	account_money = 500
+	account_wood = 0
+	account_stone = 0
+	account_population = 0
 	
 	# 2. Reset Game State
 	current_module = 1

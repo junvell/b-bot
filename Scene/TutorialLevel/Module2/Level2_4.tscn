@@ -65,34 +65,34 @@ tile_map_data = PackedByteArray("AAAMAAoAAgAAAAAAAAANAAoAAwAAAAAAAAAPAAoAAgAAAAA
 tile_set = ExtResource("1_5y8ge")
 
 [node name="Tree" parent="." unique_id=464304764 instance=ExtResource("4_tree")]
-position = Vector2(432, 294)
+position = Vector2(432, 287)
 
 [node name="Tree2" parent="." unique_id=464304765 instance=ExtResource("4_tree")]
-position = Vector2(496, 294)
+position = Vector2(496, 287)
 
 [node name="Tree3" parent="." unique_id=464304766 instance=ExtResource("4_tree")]
-position = Vector2(560, 294)
+position = Vector2(560, 287)
 
 [node name="Tree4" parent="." unique_id=464304767 instance=ExtResource("4_tree")]
-position = Vector2(432, 358)
+position = Vector2(432, 351)
 
 [node name="Tree5" parent="." unique_id=464304768 instance=ExtResource("4_tree")]
-position = Vector2(496, 358)
+position = Vector2(495, 351)
 
 [node name="Tree6" parent="." unique_id=464304769 instance=ExtResource("4_tree")]
-position = Vector2(560, 358)
+position = Vector2(560, 351)
 
 [node name="Tree7" parent="." unique_id=464304770 instance=ExtResource("4_tree")]
-position = Vector2(400, 326)
+position = Vector2(400, 319)
 
 [node name="Tree8" parent="." unique_id=464304771 instance=ExtResource("4_tree")]
-position = Vector2(464, 326)
+position = Vector2(464, 319)
 
 [node name="Tree9" parent="." unique_id=464304772 instance=ExtResource("4_tree")]
-position = Vector2(528, 326)
+position = Vector2(528, 319)
 
 [node name="Tree10" parent="." unique_id=464304773 instance=ExtResource("4_tree")]
-position = Vector2(592, 326)
+position = Vector2(593, 319)
 
 [node name="BBot" parent="." unique_id=797494797 instance=ExtResource("3_g50wx")]
 position = Vector2(368, 336)

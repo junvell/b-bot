@@ -18,13 +18,17 @@ func _ready():
 	# 2. We generate the fog only over the tiles you drew
 	_generate_fog_over_active_map()
 	
+	# Wait for main.gd to load buildings (like quarries) from save data
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
 	# 3. Spawn resources safely on your grass
 	_spawn_resources_on_grass()
 	
 	# 4. Start the regrowth timer
 	var spawn_timer = Timer.new()
 	add_child(spawn_timer)
-	spawn_timer.wait_time = 5.0 # Try to grow something every 5 seconds
+	spawn_timer.wait_time = 15.0 # Regrow resources every 15 seconds
 	spawn_timer.timeout.connect(_on_regrowth_tick)
 	spawn_timer.start()
 	# Set the center cell based on where the bot starts
@@ -41,15 +45,42 @@ func _generate_fog_over_active_map():
 		fog_layer.set_cell(cell, 2, Vector2i(0, 0)) # Assumes black tile is at 0,0
 
 func _spawn_resources_on_grass():
-	# Find all grass tiles you drew
 	var safe_tiles = _get_safe_spawn_tiles()
-	safe_tiles.shuffle() # Randomize the list
+	if safe_tiles.is_empty():
+		return
+		
+	# Check if we already have a quarry loaded from the save
+	var quarries = get_tree().get_nodes_in_group("quarries")
+	var has_quarry = quarries.size() > 0
 	
-	# Spawn only Rocks (Trees are now manually planted)
-	var rocks_to_spawn = min(3, safe_tiles.size())
+	var rocks_to_spawn = min(4, safe_tiles.size())
 	for i in range(rocks_to_spawn):
-		var cell = safe_tiles.pop_front()
-		_spawn_object(rock_scene, floor_layer.map_to_local(cell))
+		# Re-fetch safe tiles to ensure we don't spawn on top of a rock we just placed
+		safe_tiles = _get_safe_spawn_tiles()
+		if safe_tiles.is_empty():
+			break
+			
+		var spawn_tile = Vector2i.ZERO
+		var found_spot = false
+		
+		if has_quarry:
+			var quarry = quarries.pick_random()
+			var quarry_cell = floor_layer.local_to_map(floor_layer.to_local(quarry.global_position))
+			
+			var nearby_safe_tiles = []
+			for cell in safe_tiles:
+				if cell.distance_to(quarry_cell) <= 1.5:
+					nearby_safe_tiles.append(cell)
+					
+			if not nearby_safe_tiles.is_empty():
+				spawn_tile = nearby_safe_tiles.pick_random()
+				found_spot = true
+		else:
+			spawn_tile = safe_tiles.pick_random()
+			found_spot = true
+			
+		if found_spot:
+			_spawn_object(rock_scene, floor_layer.map_to_local(spawn_tile))
 
 func _get_safe_spawn_tiles() -> Array[Vector2i]:
 	var safe_tiles: Array[Vector2i] = []
@@ -106,32 +137,42 @@ func _spawn_object(scene: PackedScene, pos: Vector2):
 
 # --- REGROWTH TICK ---
 func _on_regrowth_tick():
-	# 1. Calculate how many tiles are currently bright
-	# We use the same math as your fog expansion
-	var radius = 2 + (Global.population / 10) 
-	var side_length = (radius * 2) + 1
-	var total_bright_tiles = side_length * side_length
-	
-	# 2. Calculate the Max Capacity for this area size
-	var max_resources_allowed = int(total_bright_tiles * resource_density_percent)
-	
-	# 3. Count how many trees and rocks currently exist in the world
-	var current_tree_count = get_tree().get_nodes_in_group("trees").size()
 	var current_rock_count = get_tree().get_nodes_in_group("rocks").size()
-	var total_current_resources = current_tree_count + current_rock_count
+	var quarries = get_tree().get_nodes_in_group("quarries")
+	var has_quarry = quarries.size() > 0
 	
-	# 4. STRATEGIC CHECK: Only spawn if there is "room" in the bright zone
-	if total_current_resources < max_resources_allowed:
+	# Maximum of 4 stones exactly on the map
+	var max_rocks = 4
+	
+	if current_rock_count < max_rocks:
 		var safe_tiles = _get_safe_spawn_tiles()
-		if safe_tiles.size() > 0:
-			safe_tiles.shuffle()
-			# Choose only Rock (Trees are now manually planted)
-			var chosen_scene = rock_scene
-			_spawn_object(chosen_scene, floor_layer.map_to_local(safe_tiles[0]))
-			# print("New resource grown. Current: ", total_current_resources + 1, "/", max_resources_allowed)
-	else:
-		pass
-		# print("Area reached maximum natural capacity. Build more houses to expand!")
+		if safe_tiles.is_empty():
+			return
+			
+		var spawn_tile = Vector2i.ZERO
+		var found_spot = false
+		
+		if has_quarry:
+			# 1. QUARRY SPAWNING: Pick a random quarry and find a safe tile near it
+			var quarry = quarries.pick_random()
+			var quarry_cell = floor_layer.local_to_map(floor_layer.to_local(quarry.global_position))
+			
+			# Search for a safe tile within a 1-tile radius (including diagonals, distance ~1.414)
+			var nearby_safe_tiles = []
+			for cell in safe_tiles:
+				if cell.distance_to(quarry_cell) <= 1.5:
+					nearby_safe_tiles.append(cell)
+					
+			if not nearby_safe_tiles.is_empty():
+				spawn_tile = nearby_safe_tiles.pick_random()
+				found_spot = true
+		else:
+			# 2. RANDOM SPAWNING: Pick any safe tile across the map
+			spawn_tile = safe_tiles.pick_random()
+			found_spot = true
+			
+		if found_spot:
+			_spawn_object(rock_scene, floor_layer.map_to_local(spawn_tile))
 
 # --- DYNAMIC FOG OF WAR ---
 func _update_fog_vision():

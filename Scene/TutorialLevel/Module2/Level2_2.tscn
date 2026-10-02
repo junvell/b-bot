@@ -65,19 +65,19 @@ tile_map_data = PackedByteArray("AAAMAAoAAgAAAAAAAAANAAoAAgAAAAAAAAAPAAoAAgAAAAA
 tile_set = ExtResource("1_5y8ge")
 
 [node name="Tree" parent="." unique_id=464304754 instance=ExtResource("4_tree")]
-position = Vector2(464, 326)
+position = Vector2(464, 319)
 
 [node name="Tree2" parent="." unique_id=464304755 instance=ExtResource("4_tree")]
-position = Vector2(496, 326)
+position = Vector2(496, 319)
 
 [node name="Tree3" parent="." unique_id=464304756 instance=ExtResource("4_tree")]
-position = Vector2(528, 326)
+position = Vector2(528, 319)
 
 [node name="Tree4" parent="." unique_id=464304757 instance=ExtResource("4_tree")]
-position = Vector2(560, 326)
+position = Vector2(560, 319)
 
 [node name="Tree5" parent="." unique_id=464304758 instance=ExtResource("4_tree")]
-position = Vector2(592, 326)
+position = Vector2(592, 319)
 
 [node name="GoalFlag" parent="." unique_id=1343890256 instance=ExtResource("2_pt77f")]
 position = Vector2(656, 326)
